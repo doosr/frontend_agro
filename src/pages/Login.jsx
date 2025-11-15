@@ -38,7 +38,7 @@ const Login = () => {
       setLoading(true);
       await login(formData.email, formData.password);
       toast.success('Connexion réussie ! 🎉');
-      navigate('app/dashboard');
+      navigate('/app/dashboard');
     } catch (error) {
       console.error('Erreur connexion:', error);
       toast.error(error.response?.data?.message || 'Erreur de connexion');

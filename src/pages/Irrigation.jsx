@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Droplets } from 'lucide-react';
 import IrrigationControl from '../components/irrigation/IrrigationControl';
 import ThresholdSettings from '../components/irrigation/ThresholdSettings';
@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 const Irrigation = () => {
   const { latestData } = useSensorData();
   const { user } = useAuth();
-  const [irrigationHistory, setIrrigationHistory] = useState([]);
+  const [irrigationHistory] = useState([]);
 
   return (
     <div className="space-y-6">

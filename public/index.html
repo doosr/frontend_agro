@@ -1,14 +1,37 @@
+<!-- frontend/public/index.html -->
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#22c55e" />
-    <meta name="description" content="SmartPlant IA - Système intelligent d'irrigation et détection de maladies" />
+    <meta name="theme-color" content="#10b981" />
+    <meta
+      name="description"
+      content="SmartPlant - Système intelligent de gestion agricole"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>SmartPlant IA</title>
+    <title>SmartPlant IA - Agriculture Intelligente</title>
+    
+    <!-- Désactiver MetaMask injection -->
+    <script>
+      // Empêcher MetaMask de causer des erreurs
+      window.addEventListener('error', function(e) {
+        if (e.message && e.message.includes('MetaMask')) {
+          e.stopImmediatePropagation();
+          return false;
+        }
+      });
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        if (e.reason && e.reason.message && e.reason.message.includes('MetaMask')) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
+        }
+      });
+    </script>
   </head>
   <body>
     <noscript>Vous devez activer JavaScript pour utiliser cette application.</noscript>

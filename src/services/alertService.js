@@ -1,24 +1,12 @@
-import api from '../config/api';
+import api from "./api";
 
 const alertService = {
-  async getAlerts(params = {}) {
-    const response = await api.get('/alert', { params });
-    return response.data;
+  getAlerts() {
+    return api.get("/alert");
   },
 
-  async markAsRead(alertId) {
-    const response = await api.put(`/alert/${alertId}/read`);
-    return response.data;
-  },
-
-  async deleteAlert(alertId) {
-    const response = await api.delete(`/alert/${alertId}`);
-    return response.data;
-  },
-
-  async getUnreadCount() {
-    const response = await api.get('/alert', { params: { lu: false } });
-    return response.data.unreadCount;
+  markAsRead(id) {
+    return api.put(`/alert/${id}/read`);
   }
 };
 

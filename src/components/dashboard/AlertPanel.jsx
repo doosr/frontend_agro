@@ -1,19 +1,20 @@
-import React from 'react';
+// src/components/dashboard/AlertPanel.jsx
+import React, { useState } from 'react';
 import { AlertCircle, CheckCircle, Info, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-const AlertPanel = ({ alerts, onMarkAsRead }) => {
+const AlertPanel = ({ alerts = [], onMarkAsRead }) => {
+  const [processingId, setProcessingId] = useState(null);
+
   const getAlertIcon = (severite) => {
     switch (severite) {
       case 'critical':
         return <XCircle className="h-5 w-5 text-red-500" />;
       case 'warning':
         return <AlertCircle className="h-5 w-5 text-yellow-500" />;
-      case 'info':
-        return <Info className="h-5 w-5 text-blue-500" />;
       default:
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <Info className="h-5 w-5 text-blue-500" />;
     }
   };
 
@@ -28,7 +29,19 @@ const AlertPanel = ({ alerts, onMarkAsRead }) => {
     }
   };
 
-  if (alerts.length === 0) {
+  const handleMark = async (id) => {
+    try {
+      setProcessingId(id);
+      await onMarkAsRead(id);
+    } catch (err) {
+      console.error('Erreur marquer lu', err);
+      // Optionnel: afficher toast
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  if (!alerts || alerts.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Alertes Récentes</h3>
@@ -58,23 +71,25 @@ const AlertPanel = ({ alerts, onMarkAsRead }) => {
                   <h4 className="font-semibold text-gray-900">{alert.titre}</h4>
                   {!alert.lu && (
                     <button
-                      onClick={() => onMarkAsRead(alert._id)}
+                      onClick={() => handleMark(alert._id)}
                       className="text-xs text-primary-600 hover:text-primary-700"
+                      disabled={processingId === alert._id}
                     >
-                      Marquer comme lu
+                      {processingId === alert._id ? '...' : 'Marquer comme lu'}
                     </button>
                   )}
                 </div>
                 <p className="text-sm text-gray-700 mt-1">{alert.message}</p>
                 <p className="text-xs text-gray-500 mt-2">
-                  {format (new Date(alert.timestamp), 'dd MMM yyyy à HH:mm', { locale: fr })}
-</p>
-</div>
-</div>
-</div>
-))}
-</div>
-</div>
-);
+                  {format(new Date(alert.timestamp), 'dd MMM yyyy à HH:mm', { locale: fr })}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
+
 export default AlertPanel;

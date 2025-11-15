@@ -385,72 +385,64 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Tout ce dont vous avez besoin
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Une suite complète d'outils pour gérer votre exploitation agricole 
-              de manière intelligente et efficace
+   {/* Features Section */}
+<section id="features" className="py-20 bg-gray-50">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        Tout ce dont vous avez besoin
+      </h2>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        Une suite complète d'outils pour gérer votre exploitation agricole 
+        de manière intelligente et efficace
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {features.map((feature, index) => {
+        
+        // Generate Tailwind color classes dynamically
+        const bgColor = {
+          blue: 'bg-blue-100',
+          purple: 'bg-purple-100',
+          green: 'bg-green-100',
+          orange: 'bg-orange-100',
+          cyan: 'bg-cyan-100',
+          yellow: 'bg-yellow-100'
+        }[feature.color];
+
+        const textColor = {
+          blue: 'text-blue-600',
+          purple: 'text-purple-600',
+          green: 'text-green-600',
+          orange: 'text-orange-600',
+          cyan: 'text-cyan-600',
+          yellow: 'text-yellow-600'
+        }[feature.color];
+
+        return (
+          <div
+            key={index}
+            className="bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
+          >
+            <div className={`inline-flex p-4 rounded-xl ${bgColor} mb-6 group-hover:scale-110 transition-transform`}>
+              <feature.icon className={`h-8 w-8 ${textColor}`} />
+            </div>
+
+            <h3 className="text-xl font-bold text-gray-900 mb-3">
+              {feature.title}
+            </h3>
+
+            <p className="text-gray-600 leading-relaxed">
+              {feature.description}
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-              >
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-  {features.map((feature, index) => {
-    const bgColor = {
-      blue: 'bg-blue-100',
-      purple: 'bg-purple-100',
-      green: 'bg-green-100',
-      orange: 'bg-orange-100',
-      cyan: 'bg-cyan-100',
-      yellow: 'bg-yellow-100'
-    }[feature.color];
-
-    const textColor = {
-      blue: 'text-blue-600',
-      purple: 'text-purple-600',
-      green: 'text-green-600',
-      orange: 'text-orange-600',
-      cyan: 'text-cyan-600',
-      yellow: 'text-yellow-600'
-    }[feature.color];
-
-    return (
-      <div
-        key={index}
-        className="bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-      >
-        <div className={`inline-flex p-4 rounded-xl ${bgColor} mb-6 group-hover:scale-110 transition-transform`}>
-          <feature.icon className={`h-8 w-8 ${textColor}`} />
-        </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-        <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-      </div>
-    );
-  })}
-</div>
-
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+        );
+      })}
+    </div>
+  </div>
+</section>
+  
       {/* How It Works Section */}
       <section id="how-it-works" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

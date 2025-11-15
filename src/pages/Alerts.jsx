@@ -1,4 +1,5 @@
-import React from 'react';
+// src/pages/Alerts.jsx
+import React, { useState } from 'react';
 import { Bell, Check, Trash2 } from 'lucide-react';
 import { useAlerts } from '../hooks/useAlerts';
 import Card from '../components/common/Card';
@@ -9,6 +10,31 @@ import { fr } from 'date-fns/locale';
 
 const Alerts = () => {
   const { alerts, loading, markAsRead, deleteAlert } = useAlerts();
+  const [processing, setProcessing] = useState(null);
+
+  const handleMark = async (id) => {
+    try {
+      setProcessing(id);
+      await markAsRead(id);
+    } catch (err) {
+      console.error('Erreur marquer lu', err);
+      // Optionnel: toast
+    } finally {
+      setProcessing(null);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      setProcessing(id);
+      await deleteAlert(id);
+    } catch (err) {
+      console.error('Erreur suppression', err);
+      // Optionnel: toast
+    } finally {
+      setProcessing(null);
+    }
+  };
 
   const getSeverityColor = (severite) => {
     switch (severite) {
@@ -36,7 +62,7 @@ const Alerts = () => {
         <p className="text-gray-600 mt-2">Gérez vos alertes et notifications</p>
       </div>
 
-      {alerts.length === 0 ? (
+      {(!alerts || alerts.length === 0) ? (
         <Card>
           <div className="text-center py-12">
             <Bell className="h-16 w-16 text-gray-400 mx-auto mb-4" />
@@ -74,18 +100,20 @@ const Alerts = () => {
                       size="sm"
                       variant="secondary"
                       icon={Check}
-                      onClick={() => markAsRead(alert._id)}
+                      onClick={() => handleMark(alert._id)}
+                      disabled={processing === alert._id}
                     >
-                      Marquer lu
+                      {processing === alert._id ? '...' : 'Marquer lu'}
                     </Button>
                   )}
                   <Button
                     size="sm"
                     variant="danger"
                     icon={Trash2}
-                    onClick={() => deleteAlert(alert._id)}
+                    onClick={() => handleDelete(alert._id)}
+                    disabled={processing === alert._id}
                   >
-                    Supprimer
+                    {processing === alert._id ? '...' : 'Supprimer'}
                   </Button>
                 </div>
               </div>

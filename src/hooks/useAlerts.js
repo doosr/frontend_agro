@@ -1,64 +1,72 @@
-import { useState, useEffect } from 'react';
-import api from '../config/api';
-import socketService from '../services/socketService';
-import { toast } from 'react-toastify';
+// src/hooks/useAlerts.js
+import { useState, useEffect, useCallback, useRef } from 'react';
+import alertService from '../services/alertService';
 
-export const useAlerts = () => {
+export function useAlerts() {
   const [alerts, setAlerts] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const fetchingRef = useRef(false);
+  const mountedRef = useRef(true);
 
-  useEffect(() => {
-    fetchAlerts();
-
-    // Écouter les nouvelles alertes
-    socketService.on('newAlert', (alert) => {
-      setAlerts(prev => [alert, ...prev]);
-      setUnreadCount(prev => prev + 1);
-      
-      // Notification toast
-      toast.warning(alert.titre, {
-        position: 'top-right',
-        autoClose: 5000,
-      });
-    });
+  const fetchAlerts = useCallback(async (options = {}) => {
+    if (fetchingRef.current) return;
+    fetchingRef.current = true;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await alertService.getAlerts(options);
+      if (!mountedRef.current) return;
+      setAlerts(res.data || []);
+    } catch (err) {
+      console.error('fetchAlerts error', err);
+      if (!mountedRef.current) return;
+      setError(err);
+    } finally {
+      fetchingRef.current = false;
+      if (mountedRef.current) setLoading(false);
+    }
   }, []);
 
-  const fetchAlerts = async () => {
-    try {
-      setLoading(true);
-      const response = await api.get('/alert');
-      setAlerts(response.data.data);
-      setUnreadCount(response.data.unreadCount);
-    } catch (error) {
-      console.error('Erreur chargement alertes:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    mountedRef.current = true;
+    fetchAlerts();
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [fetchAlerts]);
 
-  const markAsRead = async (alertId) => {
+  const markAsRead = useCallback(async (alertId) => {
     try {
-      await api.put(`/alert/${alertId}/read`);
-      setAlerts(prev => 
-        prev.map(alert => 
-          alert._id === alertId ? { ...alert, lu: true } : alert
-        )
-      );
-      setUnreadCount(prev => Math.max(0, prev - 1));
-    } catch (error) {
-      console.error('Erreur marquage alerte:', error);
+      await alertService.markAsRead(alertId);
+      // mettre à jour localement sans re-fetch complet
+      setAlerts((prev) => prev.map(a => a._id === alertId ? { ...a, lu: true } : a));
+    } catch (err) {
+      console.error('markAsRead error', err);
+      throw err;
     }
-  };
+  }, []);
 
-  const deleteAlert = async (alertId) => {
+  const deleteAlert = useCallback(async (alertId) => {
     try {
-      await api.delete(`/alert/${alertId}`);
-      setAlerts(prev => prev.filter(alert => alert._id !== alertId));
-    } catch (error) {
-      console.error('Erreur suppression alerte:', error);
+      await alertService.deleteAlert(alertId);
+      setAlerts((prev) => prev.filter(a => a._id !== alertId));
+    } catch (err) {
+      console.error('deleteAlert error', err);
+      throw err;
     }
-  };
+  }, []);
 
-  return { alerts, unreadCount, loading, markAsRead, deleteAlert, refetch: fetchAlerts };
-};
+  const refresh = useCallback(() => {
+    fetchAlerts();
+  }, [fetchAlerts]);
+
+  return {
+    alerts,
+    loading,
+    error,
+    markAsRead,
+    deleteAlert,
+    refresh
+  };
+}
