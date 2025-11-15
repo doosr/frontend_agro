@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Settings as SettingsIcon, Save, Bell, Lock } from 'lucide-react';
 import Card from '../components/common/Card';
-import Input from '../components/common/Input';
-import Button from '../components/common/Button';
+  import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
 import api from '../config/api';
 import { toast } from 'react-toastify';
