@@ -7,6 +7,10 @@ const alertService = {
 
   markAsRead(id) {
     return api.put(`/alert/${id}/read`);
+  },
+
+  deleteAlert(id) { // ✅ Add this method
+    return api.delete(`/alert/${id}`);
   }
 };
 

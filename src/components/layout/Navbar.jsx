@@ -35,7 +35,7 @@ const Navbar = ({ onMenuClick }) => {
           <div className="flex items-center space-x-4">
             {/* Notifications */}
             <Link
-              to="/alerts"
+              to="/app/alerts"
               className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
             >
               <Bell className="h-6 w-6" />

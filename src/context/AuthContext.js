@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
     authService.logout();
     setUser(null);
   };
+  console.log('AuthContext user:', user);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>

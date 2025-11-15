@@ -72,7 +72,7 @@ const Alerts = () => {
         </Card>
       ) : (
         <div className="space-y-4">
-          {alerts.map((alert) => (
+          {alerts?.map((alert) => (
             <div
               key={alert._id}
               className={`border-2 rounded-lg p-6 ${getSeverityColor(alert.severite)} ${
@@ -124,5 +124,6 @@ const Alerts = () => {
     </div>
   );
 };
+
 
 export default Alerts;

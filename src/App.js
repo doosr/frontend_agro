@@ -19,7 +19,9 @@ import Loader from './components/common/Loader';
 
 const PrivateRoute = ({ children, requireAdmin = false }) => {
   const { user, loading } = useAuth();
+  console.log('PrivateRoute user:', user);  // Debugging
 
+  // Si les données sont en cours de chargement, afficher un Loader
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -28,14 +30,17 @@ const PrivateRoute = ({ children, requireAdmin = false }) => {
     );
   }
 
+  // Si l'utilisateur n'est pas connecté, rediriger vers la page de login
   if (!user) {
     return <Navigate to="/login" />;
   }
 
+  // Si l'admin est requis mais que l'utilisateur n'est pas un admin, rediriger
   if (requireAdmin && user.role !== 'admin') {
     return <Navigate to="/dashboard" />;
   }
 
+  // Si tout est OK, afficher les enfants
   return children;
 };
 

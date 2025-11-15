@@ -1,72 +1,57 @@
-// src/hooks/useAlerts.js
-import { useState, useEffect, useCallback, useRef } from 'react';
-import alertService from '../services/alertService';
+import { useState, useEffect } from "react";
+import alertService from "../services/alertService";
 
 export function useAlerts() {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const fetchingRef = useRef(false);
-  const mountedRef = useRef(true);
 
-  const fetchAlerts = useCallback(async (options = {}) => {
-    if (fetchingRef.current) return;
-    fetchingRef.current = true;
-    setLoading(true);
-    setError(null);
+  const fetchAlerts = async () => {
     try {
-      const res = await alertService.getAlerts(options);
-      if (!mountedRef.current) return;
-      setAlerts(res.data || []);
+      setLoading(true);
+      const res = await alertService.getAlerts();
+      
+      // 🔍 DEBUG: Log the response
+      console.log("Full API response:", res);
+      console.log("res.data:", res.data);
+      console.log("Is res.data an array?", Array.isArray(res.data));
+      
+      setAlerts(res.data.data || []);
     } catch (err) {
-      console.error('fetchAlerts error', err);
-      if (!mountedRef.current) return;
-      setError(err);
+      console.error("Erreur récupération alertes:", err);
+      setAlerts([]);
     } finally {
-      fetchingRef.current = false;
-      if (mountedRef.current) setLoading(false);
+      setLoading(false);
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    mountedRef.current = true;
-    fetchAlerts();
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [fetchAlerts]);
-
-  const markAsRead = useCallback(async (alertId) => {
+  const markAsRead = async (alertId) => {
     try {
       await alertService.markAsRead(alertId);
-      // mettre à jour localement sans re-fetch complet
-      setAlerts((prev) => prev.map(a => a._id === alertId ? { ...a, lu: true } : a));
+      setAlerts((prev) => prev.map(a => 
+        a._id === alertId ? { ...a, lu: true } : a
+      ));
     } catch (err) {
-      console.error('markAsRead error', err);
+      console.error("Erreur lecture alerte:", err);
       throw err;
     }
-  }, []);
+  };
 
-  const deleteAlert = useCallback(async (alertId) => {
+  const deleteAlert = async (alertId) => {
     try {
       await alertService.deleteAlert(alertId);
-      setAlerts((prev) => prev.filter(a => a._id !== alertId));
+      setAlerts((prev) => prev.filter((a) => a._id !== alertId));
     } catch (err) {
-      console.error('deleteAlert error', err);
+      console.error("Erreur suppression alerte:", err);
       throw err;
     }
+  };
+
+  useEffect(() => {
+    fetchAlerts();
   }, []);
 
-  const refresh = useCallback(() => {
-    fetchAlerts();
-  }, [fetchAlerts]);
+  // 🔍 DEBUG: Log what's being returned
+  console.log("useAlerts returning - alerts:", alerts, "type:", typeof alerts, "isArray:", Array.isArray(alerts));
 
-  return {
-    alerts,
-    loading,
-    error,
-    markAsRead,
-    deleteAlert,
-    refresh
-  };
+  return { alerts, loading, markAsRead, deleteAlert };
 }

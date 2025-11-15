@@ -57,7 +57,7 @@ const AlertPanel = ({ alerts = [], onMarkAsRead }) => {
     <div className="bg-white rounded-xl shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Alertes Récentes</h3>
       <div className="space-y-3 max-h-96 overflow-y-auto">
-        {alerts.slice(0, 5).map((alert) => (
+        {alerts && alerts?.slice(0, 5) && alerts?.slice(0, 5).map((alert) => (
           <div
             key={alert._id}
             className={`p-4 rounded-lg border-2 ${getAlertColor(alert.severite)} ${
