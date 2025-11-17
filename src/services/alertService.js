@@ -2,15 +2,15 @@ import api from "../config/api";
 
 const alertService = {
   getAlerts() {
-    return api.get("/alert");
+    return api.get("/api/alert");
   },
 
   markAsRead(id) {
-    return api.put(`/alert/${id}/read`);
+    return api.put(`/api/alert/${id}/read`);
   },
 
-  deleteAlert(id) { // ✅ Add this method
-    return api.delete(`/alert/${id}`);
+  deleteAlert(id) {
+    return api.delete(`/api/alert/${id}`);
   }
 };
 

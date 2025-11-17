@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import authService from '../services/authService';
 
 export const useAlerts = () => {
   const [alerts, setAlerts] = useState([]);
@@ -8,72 +7,67 @@ export const useAlerts = () => {
   const [loading, setLoading] = useState(true);
   const [connected, setConnected] = useState(false);
 
-  // Récupérer le token depuis authService/localStorage
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const token = localStorage.getItem('token');
 
-  // Récupérer les alertes initiales
   const fetchAlerts = async () => {
     if (!token) return;
     try {
       setLoading(true);
-      const response = await axios.get('/api/alert', {
+
+      const response = await axios.get(`${API_URL}/api/alert`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       setAlerts(response.data.data || []);
       setUnreadCount(response.data.unreadCount || 0);
+
     } catch (error) {
-      console.error('Erreur chargement alertes:', error);
+      console.error("Erreur chargement alertes:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // Connexion SSE pour les alertes en temps réel
   useEffect(() => {
     if (!token) return;
 
     fetchAlerts();
 
     const eventSource = new EventSource(
-      `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/alert/stream`
+      `${API_URL}/api/alert/stream?token=${token}`
     );
 
     eventSource.onopen = () => {
-      console.log('✅ Connecté au flux d\'alertes');
+      console.log("✅ Connecté au flux SSE");
       setConnected(true);
     };
 
     eventSource.onmessage = (event) => {
       try {
         const newAlert = JSON.parse(event.data);
-
-        // Ignorer les messages heartbeat ou connect
-        if (newAlert.type === 'connected') return;
-
-        console.log('🔔 Nouvelle alerte reçue:', newAlert);
+        if (newAlert.type === "connected") return;
 
         setAlerts(prev => [newAlert, ...prev]);
         setUnreadCount(prev => prev + 1);
 
-        // Notification du navigateur
-        if (Notification.permission === 'granted') {
+        if (Notification.permission === "granted") {
           new Notification(newAlert.titre, {
             body: newAlert.message,
-            icon: '/logo192.png',
-            tag: newAlert._id
+            icon: "/logo192.png"
           });
         }
 
-        // Son notification (optionnel)
         const audio = new Audio('/notification.mp3');
         audio.play().catch(() => {});
       } catch (err) {
-        console.error('Erreur parsing alerte:', err);
+        console.error("Erreur parsing alerte:", err);
       }
     };
 
     eventSource.onerror = (err) => {
-      console.error('❌ SSE Error:', err);
+      console.error("❌ SSE Error:", err);
       setConnected(false);
       eventSource.close();
     };
@@ -84,57 +78,53 @@ export const useAlerts = () => {
     };
   }, [token]);
 
-  // Marquer une alerte comme lue
   const markAsRead = async (id) => {
     try {
-      await axios.put(`/api/alert/${id}/read`, {}, {
+      await axios.put(`${API_URL}/api/alert/${id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       setAlerts(prev =>
         prev.map(alert => alert._id === id ? { ...alert, lu: true } : alert)
       );
-      setUnreadCount(prev => Math.max(0, prev - 1));
+
+      setUnreadCount(prev => Math.max(prev - 1, 0));
+
     } catch (err) {
-      console.error('Erreur marquer lu:', err);
-      throw err;
+      console.error("Erreur markAsRead:", err);
     }
   };
 
-  // Supprimer une alerte
   const deleteAlert = async (id) => {
     try {
-      await axios.delete(`/api/alert/${id}`, {
+      await axios.delete(`${API_URL}/api/alert/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
       const deleted = alerts.find(a => a._id === id);
+
       setAlerts(prev => prev.filter(a => a._id !== id));
+
       if (deleted && !deleted.lu) {
-        setUnreadCount(prev => Math.max(0, prev - 1));
+        setUnreadCount(prev => Math.max(prev - 1, 0));
       }
+
     } catch (err) {
-      console.error('Erreur suppression alerte:', err);
-      throw err;
+      console.error("Erreur suppression alerte:", err);
     }
   };
 
-  // Marquer toutes les alertes comme lues
   const markAllAsRead = async () => {
     try {
-      await axios.put('/api/alert/read-all', {}, {
+      await axios.put(`${API_URL}/api/alert/read-all`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setAlerts(prev => prev.map(alert => ({ ...alert, lu: true })));
-      setUnreadCount(0);
-    } catch (err) {
-      console.error('Erreur marquer toutes lues:', err);
-      throw err;
-    }
-  };
 
-  // Demander permission notifications
-  const requestNotificationPermission = async () => {
-    if ('Notification' in window && Notification.permission === 'default') {
-      await Notification.requestPermission();
+      setAlerts(prev => prev.map(a => ({ ...a, lu: true })));
+      setUnreadCount(0);
+
+    } catch (err) {
+      console.error("Erreur markAllAsRead:", err);
     }
   };
 
@@ -146,7 +136,6 @@ export const useAlerts = () => {
     markAsRead,
     deleteAlert,
     markAllAsRead,
-    fetchAlerts,
-    requestNotificationPermission
+    fetchAlerts
   };
 };
