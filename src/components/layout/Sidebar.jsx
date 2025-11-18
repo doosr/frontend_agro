@@ -17,13 +17,13 @@ const Sidebar = ({ isOpen, onClose }) => {
   const { user } = useAuth();
 
   const menuItems = [
-    { path: '/app/dashboard', icon: LayoutDashboard, label: 'Tableau de bord', roles: ['admin', 'agriculteur'] },
-    { path: '/app/sensors', icon: Activity, label: 'Capteurs', roles: ['admin', 'agriculteur'] },
+    { path: '/app/dashboard', icon: LayoutDashboard, label: 'Tableau de bord', roles: [ 'agriculteur'] },
+    { path: '/app/sensors', icon: Activity, label: 'Capteurs', roles: [ 'agriculteur'] },
     { path: '/app/irrigation', icon: Droplets, label: 'Irrigation', roles: ['agriculteur'] },
     { path: '/app/analysis', icon: Image, label: 'Analyse IA', roles: ['agriculteur'] },
     { path: '/app/capteurs-admin', icon: Radio, label: 'Gestion Capteurs', roles: ['admin'] },
     { path: '/app/users', icon: Users, label: 'Utilisateurs', roles: ['admin'] },
-    { path: '/app/settings', icon: Settings, label: 'Paramètres', roles: ['admin', 'agriculteur'] },
+    { path: '/app/settings', icon: Settings, label: 'Paramètres', roles: [ 'agriculteur'] },
   ];
 
   const filteredMenu = menuItems.filter(item => item.roles.includes(user?.role));

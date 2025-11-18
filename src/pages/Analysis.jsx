@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
-import ImageUpload from '../components/analysis/ImageUpload';
+import ImageUploadIA from '../components/analysis/ImageUploadIA';
 import DiagnosticResult from '../components/analysis/DiagnosticResult';
 import Card from '../components/common/Card';
 import Loader from '../components/common/Loader';
@@ -29,7 +29,8 @@ const Analysis = () => {
 
   const handleAnalysisComplete = (result) => {
     setSelectedImage(result);
-    fetchImages();
+    // Optionnel: rafraîchir les images si elles sont stockées dans le backend
+    // fetchImages();
   };
 
   return (
@@ -40,7 +41,7 @@ const Analysis = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ImageUpload onAnalysisComplete={handleAnalysisComplete} />
+        <ImageUploadIA onAnalysisComplete={handleAnalysisComplete} />
         {selectedImage && <DiagnosticResult result={selectedImage} />}
       </div>
 
