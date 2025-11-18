@@ -4,37 +4,31 @@ const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5000';
 
 class SocketService {
   constructor() {
-    // Socket singleton
-    if (!SocketService.instance) {
-      this.socket = io(SOCKET_URL, {
-        autoConnect: false, // ne pas se connecter immédiatement
-        transports: ['websocket'],
-        auth: {
-          token: localStorage.getItem('token')
-        }
-      });
-
-      this.socket.on('connect', () => console.log('✅ Socket connecté:', this.socket.id));
-      this.socket.on('disconnect', (reason) => console.log('❌ Socket déconnecté:', reason));
-
-      SocketService.instance = this;
-    }
-
-    return SocketService.instance;
+    this.socket = null;
   }
 
   connect(userId) {
-    if (!this.socket.connected) {
-      this.socket.connect();
-    }
-    if (userId) {
+    this.socket = io(SOCKET_URL, {
+      transports: ['websocket'],
+      auth: {
+        token: localStorage.getItem('token')
+      }
+    });
+
+    this.socket.on('connect', () => {
+      console.log('✅ Socket connecté');
       this.socket.emit('join', userId);
-    }
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('❌ Socket déconnecté');
+    });
+
     return this.socket;
   }
 
   disconnect() {
-    if (this.socket && this.socket.connected) {
+    if (this.socket) {
       this.socket.disconnect();
     }
   }
@@ -52,5 +46,4 @@ class SocketService {
   }
 }
 
-const instance = new SocketService();
-export default instance;
+export default new SocketService();
