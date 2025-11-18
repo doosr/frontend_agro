@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Mail, Phone, Save } from 'lucide-react';
 import Card from '../components/common/Card';
 import Input from '../components/common/Input';
@@ -8,23 +8,54 @@ import api from '../config/api';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [formData, setFormData] = useState({
-    nom: user?.nom || '',
-    email: user?.email || '',
-    telephone: user?.telephone || ''
+    nom: '',
+    email: '',
+    telephone: ''
   });
   const [loading, setLoading] = useState(false);
+
+  // Charger les données utilisateur au montage
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        nom: user.nom || '',
+        email: user.email || '',
+        telephone: user.telephone || ''
+      });
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validation simple
+    if (!formData.nom || formData.nom.trim() === '') {
+      toast.error('Le nom est requis');
+      return;
+    }
+
     try {
       setLoading(true);
-      await api.put('/user/profile', formData);
-      toast.success('Profil mis à jour avec succès');
+      
+      // Envoyer uniquement nom et téléphone
+      const response = await api.put('/user/profile', {
+        nom: formData.nom,
+        telephone: formData.telephone
+      });
+      
+      if (response.data.success) {
+        // Mettre à jour le contexte utilisateur
+        setUser(response.data.data);
+        toast.success('Profil mis à jour avec succès');
+      }
     } catch (error) {
-      toast.error('Erreur lors de la mise à jour du profil');
+      console.error('Erreur:', error);
+      toast.error(
+        error.response?.data?.message || 
+        'Erreur lors de la mise à jour du profil'
+      );
     } finally {
       setLoading(false);
     }
@@ -53,6 +84,7 @@ const Profile = () => {
               icon={User}
               value={formData.nom}
               onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+              required
             />
 
             <Input
@@ -60,7 +92,6 @@ const Profile = () => {
               type="email"
               icon={Mail}
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               disabled
             />
 
@@ -70,11 +101,14 @@ const Profile = () => {
               icon={Phone}
               value={formData.telephone}
               onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
+              placeholder="Ex: +216 12 345 678"
             />
 
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700">Rôle</p>
-              <p className="text-lg font-semibold text-primary-600 capitalize">{user?.role}</p>
+              <p className="text-lg font-semibold text-primary-600 capitalize">
+                {user?.role}
+              </p>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
