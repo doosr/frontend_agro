@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import SocketService from './services/SocketService';
 import Layout from './components/layout/Layout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -19,9 +20,7 @@ import Loader from './components/common/Loader';
 
 const PrivateRoute = ({ children, requireAdmin = false }) => {
   const { user, loading } = useAuth();
-  console.log('PrivateRoute user:', user);  // Debugging
 
-  // Si les données sont en cours de chargement, afficher un Loader
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -30,17 +29,9 @@ const PrivateRoute = ({ children, requireAdmin = false }) => {
     );
   }
 
-  // Si l'utilisateur n'est pas connecté, rediriger vers la page de login
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  if (!user) return <Navigate to="/login" />;
+  if (requireAdmin && user.role !== 'admin') return <Navigate to="/dashboard" />;
 
-  // Si l'admin est requis mais que l'utilisateur n'est pas un admin, rediriger
-  if (requireAdmin && user.role !== 'admin') {
-    return <Navigate to="/dashboard" />;
-  }
-
-  // Si tout est OK, afficher les enfants
   return children;
 };
 
@@ -55,14 +46,22 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  if (user) {
-    return <Navigate to="/dashboard" />;
-  }
+  if (user) return <Navigate to="/app/dashboard" />;
 
   return children;
 };
 
 function App() {
+  const { user, loading } = useAuth();
+
+  // ⚡ Connecter la socket une seule fois après que l'utilisateur est chargé
+  useEffect(() => {
+    if (!loading && user) {
+      SocketService.connect(user._id);
+    }
+    // NE PAS déconnecter ici pour garder la socket persistante
+  }, [user, loading]);
+
   return (
     <BrowserRouter>
       <Routes>
