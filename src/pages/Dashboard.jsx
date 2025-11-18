@@ -1,4 +1,3 @@
-// frontend/src/pages/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { Droplets, Thermometer, Wind, Sun } from 'lucide-react';
 import SensorCard from '../components/dashboard/SensorCard';
