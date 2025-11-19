@@ -217,5 +217,5 @@ MIT License - voir le fichier LICENSE
 ## 👥 Support
 
 Pour toute question ou problème :
-- 📧 Email : support@smartplant.com
-- 📱 Téléphone : +216 XX XXX XXX
+- 📧 Email : dawserbelgacem122@gmail.com
+- 📱 Téléphone : +216 28378124
