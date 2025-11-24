@@ -24,6 +24,7 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
   return (
     <Card title="Contrôle Manuel" icon={Droplets}>
       <div className="space-y-6">
+
         {/* État actuel */}
         <div className="bg-gray-50 rounded-lg p-4">
           <div className="flex items-center justify-between">
@@ -37,7 +38,7 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
           </div>
         </div>
 
-        {/* Boutons de contrôle */}
+        {/* Boutons */}
         <div className="grid grid-cols-2 gap-4">
           <Button
             variant={currentState ? 'secondary' : 'success'}
@@ -71,6 +72,7 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
             </div>
           </div>
         </div>
+
       </div>
     </Card>
   );
