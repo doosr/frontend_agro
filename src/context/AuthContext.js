@@ -29,10 +29,27 @@ export const AuthProvider = ({ children }) => {
     authService.logout();
     setUser(null);
   };
+
+  // ✅ Fonction pour mettre à jour l'utilisateur
+  const updateUser = (updates) => {
+    setUser(prevUser => ({
+      ...prevUser,
+      ...updates
+    }));
+  };
+
   console.log('AuthContext user:', user);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      setUser,      // ✅ Ajouté
+      updateUser,   // ✅ Fonction helper pour mise à jour partielle
+      loading, 
+      login, 
+      register, 
+      logout 
+    }}>
       {children}
     </AuthContext.Provider>
   );

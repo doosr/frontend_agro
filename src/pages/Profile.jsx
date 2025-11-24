@@ -8,7 +8,7 @@ import api from '../config/api';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth(); // ✅ Ajout de updateUser
   const [formData, setFormData] = useState({
     nom: user?.nom || '',
     email: user?.email || '',
@@ -21,10 +21,17 @@ const Profile = () => {
     
     try {
       setLoading(true);
-      await api.put('/user/profile', formData);
-      toast.success('Profil mis à jour avec succès');
+      const response = await api.put('/user/profile', formData);
+      
+      // ✅ Mettre à jour le contexte utilisateur
+      if (response.data.user) {
+        updateUser(response.data.user);
+      }
+      
+      toast.success('✅ Profil mis à jour avec succès');
     } catch (error) {
-      toast.error('Erreur lors de la mise à jour du profil');
+      console.error('Erreur mise à jour profil:', error);
+      toast.error(error.response?.data?.message || 'Erreur lors de la mise à jour du profil');
     } finally {
       setLoading(false);
     }
@@ -42,7 +49,7 @@ const Profile = () => {
           {/* Avatar */}
           <div className="flex justify-center mb-6">
             <div className="bg-primary-600 text-white rounded-full h-24 w-24 flex items-center justify-center text-4xl font-bold">
-              {user?.nom?.charAt(0).toUpperCase()}
+              {user?.nom?.charAt(0).toUpperCase() || 'U'}
             </div>
           </div>
 
@@ -53,6 +60,7 @@ const Profile = () => {
               icon={User}
               value={formData.nom}
               onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+              required
             />
 
             <Input
@@ -70,11 +78,14 @@ const Profile = () => {
               icon={Phone}
               value={formData.telephone}
               onChange={(e) => setFormData({ ...formData, telephone: e.target.value })}
+              placeholder="+216 XX XXX XXX"
             />
 
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700">Rôle</p>
-              <p className="text-lg font-semibold text-primary-600 capitalize">{user?.role}</p>
+              <p className="text-lg font-semibold text-primary-600 capitalize">
+                {user?.role || 'Utilisateur'}
+              </p>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
