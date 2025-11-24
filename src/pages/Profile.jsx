@@ -8,7 +8,7 @@ import api from '../config/api';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const { user, setUser } = useAuth(); // Récupérer setUser pour mettre à jour le contexte
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     nom: user?.nom || '',
     email: user?.email || '',
@@ -21,18 +21,8 @@ const Profile = () => {
     
     try {
       setLoading(true);
-      const response = await api.put('/user/profile', formData); // L'API doit renvoyer l'utilisateur mis à jour
+      await api.put('/user/profile', formData);
       toast.success('Profil mis à jour avec succès');
-
-      // Mettre à jour le contexte pour que l'UI reflète les nouvelles valeurs
-      setUser(response.data);
-
-      // Mettre à jour le formulaire local également
-      setFormData({
-        nom: response.data.nom,
-        email: response.data.email,
-        telephone: response.data.telephone
-      });
     } catch (error) {
       toast.error('Erreur lors de la mise à jour du profil');
     } finally {
@@ -52,7 +42,7 @@ const Profile = () => {
           {/* Avatar */}
           <div className="flex justify-center mb-6">
             <div className="bg-primary-600 text-white rounded-full h-24 w-24 flex items-center justify-center text-4xl font-bold">
-              {formData.nom?.charAt(0).toUpperCase()}
+              {user?.nom?.charAt(0).toUpperCase()}
             </div>
           </div>
 
