@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { User, Mail, Phone, Save } from 'lucide-react';
 import Card from '../components/common/Card';
 import Input from '../components/common/Input';
@@ -8,41 +8,37 @@ import api from '../config/api';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useAuth(); // Récupérer setUser pour mettre à jour le contexte
   const [formData, setFormData] = useState({
-    nom: '',
-    email: '',
-    telephone: ''
+    nom: user?.nom || '',
+    email: user?.email || '',
+    telephone: user?.telephone || ''
   });
   const [loading, setLoading] = useState(false);
 
-  // Mettre à jour formData quand user change
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        nom: user.nom || '',
-        email: user.email || '',
-        telephone: user.telephone || ''
-      });
-    }
-  }, [user]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       setLoading(true);
-      const res = await api.put('/user/profile', formData);
-      toast.success(res.data.message || 'Profil mis à jour avec succès');
-      // Mettre à jour le contexte Auth après modification
-      setUser(res.data.data);
+      const response = await api.put('/user/profile', formData); // L'API doit renvoyer l'utilisateur mis à jour
+      toast.success('Profil mis à jour avec succès');
+
+      // Mettre à jour le contexte pour que l'UI reflète les nouvelles valeurs
+      setUser(response.data);
+
+      // Mettre à jour le formulaire local également
+      setFormData({
+        nom: response.data.nom,
+        email: response.data.email,
+        telephone: response.data.telephone
+      });
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Erreur lors de la mise à jour du profil');
+      toast.error('Erreur lors de la mise à jour du profil');
     } finally {
       setLoading(false);
     }
   };
-
-  if (!user) return <p className="text-gray-500">Chargement du profil...</p>;
 
   return (
     <div className="space-y-6 max-w-2xl">
@@ -74,6 +70,7 @@ const Profile = () => {
               type="email"
               icon={Mail}
               value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               disabled
             />
 
@@ -87,13 +84,13 @@ const Profile = () => {
 
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700">Rôle</p>
-              <p className="text-lg font-semibold text-primary-600 capitalize">{user.role}</p>
+              <p className="text-lg font-semibold text-primary-600 capitalize">{user?.role}</p>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700">Statut Email</p>
               <div className="flex items-center mt-1">
-                {user.isEmailVerified ? (
+                {user?.isEmailVerified ? (
                   <>
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                     <p className="text-sm text-green-700">Email vérifié</p>
@@ -107,10 +104,10 @@ const Profile = () => {
               </div>
             </div>
 
-            <Button
+            <Button 
               type="submit"
-              variant="primary"
-              icon={Save}
+              variant="primary" 
+              icon={Save} 
               loading={loading}
               className="w-full"
             >
