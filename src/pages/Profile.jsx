@@ -28,7 +28,7 @@ const Profile = () => {
         updateUser(response.data.user);
       }
       
-      toast.success('✅ Profil mis à jour avec succès');
+      toast.success(' Profil mis à jour avec succès');
     } catch (error) {
       console.error('Erreur mise à jour profil:', error);
       toast.error(error.response?.data?.message || 'Erreur lors de la mise à jour du profil');
