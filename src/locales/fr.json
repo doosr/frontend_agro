@@ -13,6 +13,7 @@
     "forgotPassword": {
         "title": "Mot de passe oublié",
         "subtitle": "Entrez votre email pour réinitialiser votre mot de passe",
+        "emailRequired": "L'email est requis",
         "sendInstructions": "Envoyer les instructions",
         "backToLogin": "Retour à la connexion"
     },

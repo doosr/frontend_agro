@@ -13,6 +13,7 @@
     "forgotPassword": {
         "title": "Forgot Password",
         "subtitle": "Enter your email to reset your password",
+        "emailRequired": "Email is required",
         "sendInstructions": "Send instructions",
         "backToLogin": "Back to login"
     },

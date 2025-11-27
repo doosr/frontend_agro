@@ -19,7 +19,7 @@ const ForgotPassword = () => {
         e.preventDefault();
 
         if (!email) {
-            setError("L'email est requis");
+            setError(t('forgotPassword.emailRequired'));
             return;
         }
 
