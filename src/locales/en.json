@@ -1,0 +1,79 @@
+{
+    "login": {
+        "title": "SmartPlant AI",
+        "subtitle": "Sign in to your account",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "submit": "Sign in",
+        "noAccount": "No account yet?",
+        "register": "Sign up",
+        "demo": "Demo accounts"
+    },
+    "forgotPassword": {
+        "title": "Forgot Password",
+        "subtitle": "Enter your email to reset your password",
+        "sendInstructions": "Send instructions",
+        "backToLogin": "Back to login"
+    },
+    "resetPassword": {
+        "title": "Reset Password",
+        "subtitle": "Enter your new password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "passwordPlaceholder": "Enter your new password",
+        "confirmPasswordPlaceholder": "Confirm your password",
+        "submit": "Reset password",
+        "backToLogin": "Back to login",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 6 characters",
+        "confirmPasswordRequired": "Password confirmation is required",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Password reset successfully!",
+        "error": "An error occurred during password reset",
+        "invalidToken": "The link is invalid or has expired"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "subtitle": "Overview of your SmartPlant system",
+        "soilHumidity": "Soil Humidity",
+        "temperature": "Temperature",
+        "airHumidity": "Air Humidity",
+        "luminosity": "Luminosity",
+        "evolution": "Parameters Evolution (24h)",
+        "statistics": "Statistics (24h)",
+        "avgSoilHumidity": "Avg Soil Humidity",
+        "avgTemperature": "Avg Temperature",
+        "avgAirHumidity": "Avg Air Humidity",
+        "avgLuminosity": "Avg Luminosity",
+        "loading": "Loading dashboard..."
+    },
+    "navbar": {
+        "myProfile": "My Profile",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "sensors": "Sensors",
+        "irrigation": "Irrigation",
+        "analysis": "Analysis",
+        "alerts": "Alerts",
+        "settings": "Settings",
+        "profile": "Profile",
+        "admin": "Administration",
+        "users": "Users",
+        "sensorsAdmin": "Sensors Management"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "search": "Search"
+    }
+}

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, User, LogOut, Settings, Menu, X } from 'lucide-react';
+import { Bell, User, LogOut, Settings, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAlerts } from '../../hooks/useAlerts';
+import LanguageSwitcher from '../common/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = ({ onMenuClick }) => {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const { unreadCount } = useAlerts();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -24,7 +27,7 @@ const Navbar = ({ onMenuClick }) => {
             <Link to="/app/Dashboard" className="flex items-center space-x-3 ml-2 lg:ml-0">
               <div className="bg-primary-600 p-2 rounded-lg">
                 <svg className="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
                 </svg>
               </div>
               <span className="text-xl font-bold text-gray-900">SmartPlant IA</span>
@@ -33,6 +36,8 @@ const Navbar = ({ onMenuClick }) => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+
             {/* Notifications */}
             <Link
               to="/app/alerts"
@@ -70,7 +75,7 @@ const Navbar = ({ onMenuClick }) => {
                     onClick={() => setShowUserMenu(false)}
                   >
                     <User className="h-4 w-4 mr-3" />
-                    Mon Profil
+                    {t('navbar.myProfile')}
                   </Link>
                   <Link
                     to="/app/settings"
@@ -78,7 +83,7 @@ const Navbar = ({ onMenuClick }) => {
                     onClick={() => setShowUserMenu(false)}
                   >
                     <Settings className="h-4 w-4 mr-3" />
-                    Paramètres
+                    {t('navbar.settings')}
                   </Link>
                   <hr className="my-1" />
                   <button
@@ -89,7 +94,7 @@ const Navbar = ({ onMenuClick }) => {
                     className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   >
                     <LogOut className="h-4 w-4 mr-3" />
-                    Déconnexion
+                    {t('navbar.logout')}
                   </button>
                 </div>
               )}

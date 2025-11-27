@@ -5,6 +5,8 @@ import Layout from './components/layout/Layout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 import Dashboard from './pages/Dashboard';
 import Sensors from './pages/Sensors';
@@ -72,6 +74,8 @@ function App() {
         {/* Routes publiques */}
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+        <Route path="/reset-password/:token" element={<PublicRoute><ResetPassword /></PublicRoute>} />
 
         {/* Routes protégées */}
         <Route path="/app" element={<PrivateRoute><Layout /></PrivateRoute>}>
@@ -83,7 +87,7 @@ function App() {
           <Route path="alerts" element={<Alerts />} />
           <Route path="settings" element={<Settings />} />
           <Route path="profile" element={<Profile />} />
-          
+
           {/* Routes Admin */}
           <Route path="users" element={<PrivateRoute requireAdmin><Users /></PrivateRoute>} />
           <Route path="capteurs-admin" element={<PrivateRoute requireAdmin><CapteursAdmin /></PrivateRoute>} />

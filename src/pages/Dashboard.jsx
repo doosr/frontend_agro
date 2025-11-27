@@ -7,8 +7,10 @@ import Loader from '../components/common/Loader';
 import { useSensorData } from '../hooks/useSensorData';
 import { useAlerts } from '../hooks/useAlerts';
 import sensorService from '../services/sensorService';
+import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const { latestData, loading: sensorLoading } = useSensorData();
   const { alerts, markAsRead } = useAlerts();
   const [historicalData, setHistoricalData] = useState([]);
@@ -38,7 +40,7 @@ const Dashboard = () => {
   if (loading || sensorLoading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader size="lg" text="Chargement du tableau de bord..." />
+        <Loader size="lg" text={t('dashboard.loading')} />
       </div>
     );
   }
@@ -47,35 +49,35 @@ const Dashboard = () => {
     <div className="space-y-6">
       {/* En-tête */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Tableau de Bord</h1>
-        <p className="text-gray-600 mt-2">Vue d'ensemble de votre système SmartPlant</p>
+        <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
+        <p className="text-gray-600 mt-2">{t('dashboard.subtitle')}</p>
       </div>
 
       {/* Cartes de capteurs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <SensorCard
-          title="Humidité du Sol"
+          title={t('dashboard.soilHumidity')}
           value={latestData?.humiditeSol || 0}
           unit=""
           icon={Droplets}
           color="blue"
         />
         <SensorCard
-          title="Température"
+          title={t('dashboard.temperature')}
           value={latestData?.temperatureAir?.toFixed(1) || 0}
           unit="°C"
           icon={Thermometer}
           color="red"
         />
         <SensorCard
-          title="Humidité de l'Air"
+          title={t('dashboard.airHumidity')}
           value={latestData?.humiditeAir?.toFixed(1) || 0}
           unit="%"
           icon={Wind}
           color="green"
         />
         <SensorCard
-          title="Luminosité"
+          title={t('dashboard.luminosity')}
           value={latestData?.luminosite || 0}
           unit=""
           icon={Sun}
@@ -88,7 +90,7 @@ const Dashboard = () => {
         <div className="lg:col-span-2">
           <ChartWidget
             data={historicalData}
-            title="Évolution des Paramètres (24h)"
+            title={t('dashboard.evolution')}
             dataKeys={[
               { key: 'humiditeSol', name: 'Humidité Sol' },
               { key: 'temperatureAir', name: 'Température' },
@@ -104,28 +106,28 @@ const Dashboard = () => {
       {/* Statistiques */}
       {stats && (
         <div className="bg-white rounded-xl shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Statistiques (24h)</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('dashboard.statistics')}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <p className="text-sm text-gray-600">Humidité Sol Moyenne</p>
+              <p className="text-sm text-gray-600">{t('dashboard.avgSoilHumidity')}</p>
               <p className="text-2xl font-bold text-primary-600">
                 {stats.avgHumiditeSol?.toFixed(0) || 0}
               </p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-600">Temp. Moyenne</p>
+              <p className="text-sm text-gray-600">{t('dashboard.avgTemperature')}</p>
               <p className="text-2xl font-bold text-red-600">
                 {stats.avgTemperature?.toFixed(1) || 0}°C
               </p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-600">Humidité Air Moyenne</p>
+              <p className="text-sm text-gray-600">{t('dashboard.avgAirHumidity')}</p>
               <p className="text-2xl font-bold text-green-600">
                 {stats.avgHumiditeAir?.toFixed(1) || 0}%
               </p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-600">Luminosité Moyenne</p>
+              <p className="text-sm text-gray-600">{t('dashboard.avgLuminosity')}</p>
               <p className="text-2xl font-bold text-yellow-600">
                 {stats.avgLuminosite?.toFixed(0) || 0}
               </p>
@@ -137,4 +139,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

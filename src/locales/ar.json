@@ -1,0 +1,79 @@
+{
+    "login": {
+        "title": "SmartPlant IA",
+        "subtitle": "تسجيل الدخول إلى حسابك",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "forgotPassword": "نسيت كلمة المرور؟",
+        "submit": "تسجيل الدخول",
+        "noAccount": "ليس لديك حساب؟",
+        "register": "إنشاء حساب",
+        "demo": "حسابات تجريبية"
+    },
+    "forgotPassword": {
+        "title": "نسيت كلمة المرور",
+        "subtitle": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+        "sendInstructions": "إرسال التعليمات",
+        "backToLogin": "العودة لتسجيل الدخول"
+    },
+    "resetPassword": {
+        "title": "إعادة تعيين كلمة المرور",
+        "subtitle": "أدخل كلمة المرور الجديدة",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "passwordPlaceholder": "أدخل كلمة المرور الجديدة",
+        "confirmPasswordPlaceholder": "أكد كلمة المرور",
+        "submit": "إعادة تعيين كلمة المرور",
+        "backToLogin": "العودة لتسجيل الدخول",
+        "passwordRequired": "كلمة المرور مطلوبة",
+        "passwordMinLength": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل",
+        "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب",
+        "passwordMismatch": "كلمات المرور غير متطابقة",
+        "success": "تم إعادة تعيين كلمة المرور بنجاح!",
+        "error": "حدث خطأ أثناء إعادة تعيين كلمة المرور",
+        "invalidToken": "الرابط غير صالح أو منتهي الصلاحية"
+    },
+    "dashboard": {
+        "title": "لوحة التحكم",
+        "subtitle": "نظرة عامة على نظام SmartPlant الخاص بك",
+        "soilHumidity": "رطوبة التربة",
+        "temperature": "درجة الحرارة",
+        "airHumidity": "رطوبة الهواء",
+        "luminosity": "الإضاءة",
+        "evolution": "تطور المعايير (24 ساعة)",
+        "statistics": "إحصائيات (24 ساعة)",
+        "avgSoilHumidity": "متوسط رطوبة التربة",
+        "avgTemperature": "متوسط درجة الحرارة",
+        "avgAirHumidity": "متوسط رطوبة الهواء",
+        "avgLuminosity": "متوسط الإضاءة",
+        "loading": "جار تحميل لوحة التحكم..."
+    },
+    "navbar": {
+        "myProfile": "ملفي الشخصي",
+        "settings": "الإعدادات",
+        "logout": "تسجيل الخروج"
+    },
+    "sidebar": {
+        "dashboard": "لوحة التحكم",
+        "sensors": "أجهزة الاستشعار",
+        "irrigation": "الري",
+        "analysis": "التحليل",
+        "alerts": "التنبيهات",
+        "settings": "الإعدادات",
+        "profile": "الملف الشخصي",
+        "admin": "الإدارة",
+        "users": "المستخدمون",
+        "sensorsAdmin": "إدارة أجهزة الاستشعار"
+    },
+    "common": {
+        "loading": "جاري التحميل...",
+        "error": "حدث خطأ",
+        "success": "نجاح",
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "add": "إضافة",
+        "search": "بحث"
+    }
+}

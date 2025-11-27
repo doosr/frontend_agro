@@ -1,0 +1,79 @@
+{
+    "login": {
+        "title": "SmartPlant IA",
+        "subtitle": "Connectez-vous à votre compte",
+        "email": "Email",
+        "password": "Mot de passe",
+        "forgotPassword": "Mot de passe oublié ?",
+        "submit": "Se connecter",
+        "noAccount": "Pas encore de compte ?",
+        "register": "S'inscrire",
+        "demo": "Comptes de démonstration"
+    },
+    "forgotPassword": {
+        "title": "Mot de passe oublié",
+        "subtitle": "Entrez votre email pour réinitialiser votre mot de passe",
+        "sendInstructions": "Envoyer les instructions",
+        "backToLogin": "Retour à la connexion"
+    },
+    "resetPassword": {
+        "title": "Réinitialiser le mot de passe",
+        "subtitle": "Entrez votre nouveau mot de passe",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le mot de passe",
+        "passwordPlaceholder": "Entrez votre nouveau mot de passe",
+        "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+        "submit": "Réinitialiser le mot de passe",
+        "backToLogin": "Retour à la connexion",
+        "passwordRequired": "Le mot de passe est requis",
+        "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "confirmPasswordRequired": "La confirmation du mot de passe est requise",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "success": "Mot de passe réinitialisé avec succès !",
+        "error": "Une erreur est survenue lors de la réinitialisation",
+        "invalidToken": "Le lien est invalide ou a expiré"
+    },
+    "dashboard": {
+        "title": "Tableau de Bord",
+        "subtitle": "Vue d'ensemble de votre système SmartPlant",
+        "soilHumidity": "Humidité du Sol",
+        "temperature": "Température",
+        "airHumidity": "Humidité de l'Air",
+        "luminosity": "Luminosité",
+        "evolution": "Évolution des Paramètres (24h)",
+        "statistics": "Statistiques (24h)",
+        "avgSoilHumidity": "Humidité Sol Moyenne",
+        "avgTemperature": "Temp. Moyenne",
+        "avgAirHumidity": "Humidité Air Moyenne",
+        "avgLuminosity": "Luminosité Moyenne",
+        "loading": "Chargement du tableau de bord..."
+    },
+    "navbar": {
+        "myProfile": "Mon Profil",
+        "settings": "Paramètres",
+        "logout": "Déconnexion"
+    },
+    "sidebar": {
+        "dashboard": "Tableau de Bord",
+        "sensors": "Capteurs",
+        "irrigation": "Irrigation",
+        "analysis": "Analyse",
+        "alerts": "Alertes",
+        "settings": "Paramètres",
+        "profile": "Profil",
+        "admin": "Administration",
+        "users": "Utilisateurs",
+        "sensorsAdmin": "Gestion Capteurs"
+    },
+    "common": {
+        "loading": "Chargement...",
+        "error": "Une erreur est survenue",
+        "success": "Succès",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "add": "Ajouter",
+        "search": "Rechercher"
+    }
+}

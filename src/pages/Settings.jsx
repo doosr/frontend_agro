@@ -34,9 +34,9 @@ const Settings = () => {
       // ✅ Mettre à jour le contexte utilisateur
       if (response.data && response.data.user) {
         updateUser(response.data.user);
-        toast.success('✅ Paramètres sauvegardés avec succès');
+        toast.success(' Paramètres sauvegardés avec succès');
       } else {
-        toast.success('✅ Paramètres sauvegardés');
+        toast.success(' Paramètres sauvegardés');
       }
     } catch (error) {
       console.error('Erreur sauvegarde paramètres:', error);
