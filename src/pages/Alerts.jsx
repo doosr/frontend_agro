@@ -5,6 +5,8 @@ import { useAlerts } from '../hooks/useAlerts';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Loader from '../components/common/Loader';
+import SnoozeButton from '../components/notifications/SnoozeButton';
+import NotificationReminderPanel from '../components/notifications/NotificationReminderPanel';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -18,7 +20,6 @@ const Alerts = () => {
       await markAsRead(id);
     } catch (err) {
       console.error('Erreur marquer lu', err);
-      // Optionnel: toast
     } finally {
       setProcessing(null);
     }
@@ -30,7 +31,6 @@ const Alerts = () => {
       await deleteAlert(id);
     } catch (err) {
       console.error('Erreur suppression', err);
-      // Optionnel: toast
     } finally {
       setProcessing(null);
     }
@@ -62,6 +62,9 @@ const Alerts = () => {
         <p className="text-gray-600 mt-2">Gérez vos alertes et notifications</p>
       </div>
 
+      {/* Panel de rappels */}
+      <NotificationReminderPanel />
+
       {(!alerts || alerts.length === 0) ? (
         <Card>
           <div className="text-center py-12">
@@ -75,9 +78,8 @@ const Alerts = () => {
           {alerts?.map((alert) => (
             <div
               key={alert._id}
-              className={`border-2 rounded-lg p-6 ${getSeverityColor(alert.severite)} ${
-                !alert.lu ? 'shadow-lg' : 'opacity-75'
-              }`}
+              className={`border-2 rounded-lg p-6 ${getSeverityColor(alert.severite)} ${!alert.lu ? 'shadow-lg' : 'opacity-75'
+                }`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -94,27 +96,35 @@ const Alerts = () => {
                     {format(new Date(alert.timestamp), 'dd MMMM yyyy à HH:mm', { locale: fr })}
                   </p>
                 </div>
-                <div className="flex space-x-2 ml-4">
-                  {!alert.lu && (
+                <div className="flex flex-col space-y-2 ml-4">
+                  <div className="flex space-x-2">
+                    {!alert.lu && (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        icon={Check}
+                        onClick={() => handleMark(alert._id)}
+                        disabled={processing === alert._id}
+                      >
+                        {processing === alert._id ? '...' : 'Marquer lu'}
+                      </Button>
+                    )}
                     <Button
                       size="sm"
-                      variant="secondary"
-                      icon={Check}
-                      onClick={() => handleMark(alert._id)}
+                      variant="danger"
+                      icon={Trash2}
+                      onClick={() => handleDelete(alert._id)}
                       disabled={processing === alert._id}
                     >
-                      {processing === alert._id ? '...' : 'Marquer lu'}
+                      {processing === alert._id ? '...' : 'Supprimer'}
                     </Button>
+                  </div>
+                  {!alert.lu && (
+                    <SnoozeButton
+                      alertId={alert._id}
+                      onSnooze={() => handleMark(alert._id)}
+                    />
                   )}
-                  <Button
-                    size="sm"
-                    variant="danger"
-                    icon={Trash2}
-                    onClick={() => handleDelete(alert._id)}
-                    disabled={processing === alert._id}
-                  >
-                    {processing === alert._id ? '...' : 'Supprimer'}
-                  </Button>
                 </div>
               </div>
             </div>
@@ -124,6 +134,5 @@ const Alerts = () => {
     </div>
   );
 };
-
 
 export default Alerts;
