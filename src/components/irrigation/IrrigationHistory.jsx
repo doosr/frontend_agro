@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { History, Droplets, Clock } from 'lucide-react';
+import { History, Droplets, Clock, Trash2 } from 'lucide-react';
 import Card from '../common/Card';
 import api from '../../config/api';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { toast } from 'react-toastify';
 
 const IrrigationHistory = () => {
   const [history, setHistory] = useState([]);
@@ -26,6 +27,23 @@ const IrrigationHistory = () => {
       console.error('Erreur chargement historique:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Voulez-vous vraiment supprimer cette entrée ?')) {
+      return;
+    }
+
+    try {
+      const response = await api.delete(`/irrigation/history/${id}`);
+      if (response.data && response.data.success) {
+        setHistory(history.filter(item => item._id !== id));
+        toast.success('Entrée supprimée');
+      }
+    } catch (error) {
+      console.error('Erreur suppression:', error);
+      toast.error('Erreur lors de la suppression');
     }
   };
 
@@ -53,12 +71,12 @@ const IrrigationHistory = () => {
           history.map((event) => (
             <div
               key={event._id}
-              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors group"
             >
               <div className="flex items-center space-x-3">
                 <div className={`p-2 rounded-full ${event.action === 'ON'
-                    ? 'bg-blue-100 text-blue-600'
-                    : 'bg-gray-200 text-gray-600'
+                  ? 'bg-blue-100 text-blue-600'
+                  : 'bg-gray-200 text-gray-600'
                   }`}>
                   <Droplets className="h-4 w-4" />
                 </div>
@@ -68,8 +86,8 @@ const IrrigationHistory = () => {
                   </p>
                   <div className="flex items-center space-x-2 text-xs text-gray-500">
                     <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${event.source === 'AUTO'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-purple-100 text-purple-700'
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-purple-100 text-purple-700'
                       }`}>
                       {event.source === 'AUTO' ? 'AUTOMATIQUE' : 'MANUEL'}
                     </span>
@@ -77,12 +95,22 @@ const IrrigationHistory = () => {
                 </div>
               </div>
 
-              <div className="flex items-center text-xs text-gray-500" title={new Date(event.timestamp).toLocaleString()}>
-                <Clock className="h-3 w-3 mr-1" />
-                {formatDistanceToNow(new Date(event.timestamp), {
-                  addSuffix: true,
-                  locale: fr
-                })}
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center text-xs text-gray-500" title={new Date(event.timestamp).toLocaleString()}>
+                  <Clock className="h-3 w-3 mr-1" />
+                  {formatDistanceToNow(new Date(event.timestamp), {
+                    addSuffix: true,
+                    locale: fr
+                  })}
+                </div>
+
+                <button
+                  onClick={() => handleDelete(event._id)}
+                  className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full opacity-0 group-hover:opacity-100 transition-all"
+                  title="Supprimer"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
               </div>
             </div>
           ))
