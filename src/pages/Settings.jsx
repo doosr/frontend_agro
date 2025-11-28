@@ -15,7 +15,7 @@ const Settings = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // ✅ Synchroniser les settings avec le user quand il change
+  //  Synchroniser les settings avec le user quand il change
   useEffect(() => {
     if (user) {
       setSettings({
@@ -30,7 +30,7 @@ const Settings = () => {
     try {
       setLoading(true);
       const response = await api.put('/user/settings', settings);
-      
+
       // ✅ Mettre à jour le contexte utilisateur
       if (response.data && response.data.user) {
         updateUser(response.data.user);
@@ -40,9 +40,9 @@ const Settings = () => {
       }
     } catch (error) {
       console.error('Erreur sauvegarde paramètres:', error);
-      const errorMessage = error.response?.data?.message || 
-                          error.response?.data?.error || 
-                          'Erreur lors de la sauvegarde';
+      const errorMessage = error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Erreur lors de la sauvegarde';
       toast.error(errorMessage);
     } finally {
       setLoading(false);
