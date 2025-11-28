@@ -1,97 +1,94 @@
-import React from 'react';
-import { Droplets, User, Bot } from 'lucide-react';
-import { format } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import { History, Droplets, Clock } from 'lucide-react';
+import Card from '../common/Card';
+import api from '../../config/api';
+import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import Badge from '../common/Badge';
 
-const IrrigationHistory = ({ history = [] }) => {
-  return (
-    <div className="bg-white rounded-xl shadow-md p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Historique d'Irrigation
-      </h3>
+const IrrigationHistory = () => {
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-      {history.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          <Droplets className="h-12 w-12 mx-auto mb-3 text-gray-400" />
-          <p>Aucun historique disponible</p>
+  useEffect(() => {
+    fetchHistory();
+    // Rafraîchir toutes les minutes
+    const interval = setInterval(fetchHistory, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchHistory = async () => {
+    try {
+      const response = await api.get('/irrigation/history');
+      if (response.data && response.data.success) {
+        setHistory(response.data.data);
+      }
+    } catch (error) {
+      console.error('Erreur chargement historique:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading && history.length === 0) {
+    return (
+      <Card title="Historique d'Arrosage" icon={History}>
+        <div className="animate-pulse space-y-3">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-16 bg-gray-100 rounded-lg"></div>
+          ))}
         </div>
-      ) : (
-        <div className="space-y-3">
-          {history.map((item, index) => {
-            const date = item.timestamp ? new Date(item.timestamp) : null;
-            const dateStr =
-              date && !isNaN(date)
-                ? format(date, 'dd MMMM yyyy à HH:mm', { locale: fr })
-                : 'Date inconnue';
+      </Card>
+    );
+  }
 
-            return (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                {/* Action + date */}
-                <div className="flex items-center space-x-4">
-                  <div
-                    className={`p-2 rounded-full ${item.action === 'ON' ? 'bg-green-100' : 'bg-red-100'
-                      }`}
-                  >
-                    <Droplets
-                      className={`h-5 w-5 ${item.action === 'ON'
-                          ? 'text-green-600'
-                          : 'text-red-600'
-                        }`}
-                    />
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-gray-900">
-                      Arrosage {item.action === 'ON' ? 'activé' : 'désactivé'}
-                    </p>
-
-                    <p className="text-sm text-gray-600">{dateStr}</p>
-
-                    {item.duration > 0 && (
-                      <p className="text-xs text-gray-500 mt-1">
-                        Durée : {Math.floor(item.duration / 60)}min{' '}
-                        {item.duration % 60}s
-                      </p>
-                    )}
-                  </div>
+  return (
+    <Card title="Historique d'Arrosage" icon={History}>
+      <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+        {history.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <History className="h-12 w-12 mx-auto mb-3 opacity-20" />
+            <p>Aucun historique disponible</p>
+          </div>
+        ) : (
+          history.map((event) => (
+            <div
+              key={event._id}
+              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <div className={`p-2 rounded-full ${event.action === 'ON'
+                    ? 'bg-blue-100 text-blue-600'
+                    : 'bg-gray-200 text-gray-600'
+                  }`}>
+                  <Droplets className="h-4 w-4" />
                 </div>
-
-                {/* Badge + raison */}
-                <div className="flex items-center space-x-2">
-                  <Badge
-                    variant={
-                      item.type === 'manual'
-                        ? 'warning'
-                        : 'info'
-                    }
-                  >
-                    {item.type === 'manual' ? (
-                      <>
-                        <User className="h-3 w-3 mr-1 inline" /> Manuel
-                      </>
-                    ) : (
-                      <>
-                        <Bot className="h-3 w-3 mr-1 inline" /> Auto
-                      </>
-                    )}
-                  </Badge>
-
-                  {item.reason && (
-                    <span className="text-xs text-gray-500">
-                      ({item.reason})
+                <div>
+                  <p className="font-medium text-gray-900">
+                    Arrosage {event.action === 'ON' ? 'Démarré' : 'Arrêté'}
+                  </p>
+                  <div className="flex items-center space-x-2 text-xs text-gray-500">
+                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${event.source === 'AUTO'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-purple-100 text-purple-700'
+                      }`}>
+                      {event.source === 'AUTO' ? 'AUTOMATIQUE' : 'MANUEL'}
                     </span>
-                  )}
+                  </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
+
+              <div className="flex items-center text-xs text-gray-500" title={new Date(event.timestamp).toLocaleString()}>
+                <Clock className="h-3 w-3 mr-1" />
+                {formatDistanceToNow(new Date(event.timestamp), {
+                  addSuffix: true,
+                  locale: fr
+                })}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </Card>
   );
 };
 

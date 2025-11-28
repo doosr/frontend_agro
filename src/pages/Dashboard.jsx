@@ -8,6 +8,7 @@ import { useSensorData } from '../hooks/useSensorData';
 import { useAlerts } from '../hooks/useAlerts';
 import sensorService from '../services/sensorService';
 import { useTranslation } from 'react-i18next';
+import IrrigationHistory from '../components/irrigation/IrrigationHistory';
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -98,8 +99,9 @@ const Dashboard = () => {
             ]}
           />
         </div>
-        <div>
+        <div className="space-y-6">
           <AlertPanel alerts={alerts} onMarkAsRead={markAsRead} />
+          <IrrigationHistory />
         </div>
       </div>
 
