@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Clock, ChevronDown } from 'lucide-react';
-import reminderService from '../../services/reminderService';
+import reminderService from '../services/reminderService';
 import { toast } from 'react-toastify';
 
 const SnoozeButton = ({ alertId, onSnooze }) => {

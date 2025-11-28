@@ -33,16 +33,14 @@ const IrrigationHistory = ({ history = [] }) => {
                 {/* Action + date */}
                 <div className="flex items-center space-x-4">
                   <div
-                    className={`p-2 rounded-full ${
-                      item.action === 'ON' ? 'bg-green-100' : 'bg-red-100'
-                    }`}
+                    className={`p-2 rounded-full ${item.action === 'ON' ? 'bg-green-100' : 'bg-red-100'
+                      }`}
                   >
                     <Droplets
-                      className={`h-5 w-5 ${
-                        item.action === 'ON'
+                      className={`h-5 w-5 ${item.action === 'ON'
                           ? 'text-green-600'
                           : 'text-red-600'
-                      }`}
+                        }`}
                     />
                   </div>
 
