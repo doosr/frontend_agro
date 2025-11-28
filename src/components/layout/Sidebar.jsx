@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Droplets, 
-  Image, 
-  Activity, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Droplets,
+  Image,
+  Activity,
+  Settings,
   Users,
   Radio,
   X
@@ -17,13 +17,13 @@ const Sidebar = ({ isOpen, onClose }) => {
   const { user } = useAuth();
 
   const menuItems = [
-    { path: '/app/dashboard', icon: LayoutDashboard, label: 'Tableau de bord', roles: [ 'agriculteur'] },
-    { path: '/app/sensors', icon: Activity, label: 'Capteurs', roles: [ 'agriculteur'] },
+    { path: '/app/dashboard', icon: LayoutDashboard, label: 'Tableau de bord', roles: ['agriculteur'] },
+    { path: '/app/sensors', icon: Activity, label: 'Capteurs', roles: ['agriculteur'] },
     { path: '/app/irrigation', icon: Droplets, label: 'Irrigation', roles: ['agriculteur'] },
     { path: '/app/analysis', icon: Image, label: 'Analyse IA', roles: ['agriculteur'] },
-    { path: '/app/capteurs-admin', icon: Radio, label: 'Gestion Capteurs', roles: ['admin'] },
+    { path: '/app/capteurs-admin', icon: Radio, label: 'Gestion Objets', roles: ['admin'] },
     { path: '/app/users', icon: Users, label: 'Utilisateurs', roles: ['admin'] },
-    { path: '/app/settings', icon: Settings, label: 'Paramètres', roles: [ 'agriculteur'] },
+    { path: '/app/settings', icon: Settings, label: 'Paramètres', roles: ['agriculteur'] },
   ];
 
   const filteredMenu = menuItems.filter(item => item.roles.includes(user?.role));
@@ -32,9 +32,9 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Overlay Mobile - FIX: utiliser isOpen au lieu de isMenuOpen */}
+      {/* Overlay Mobile */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={onClose}
         />
@@ -42,10 +42,11 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-50
+        fixed lg:sticky lg:top-16 inset-y-0 left-0 z-50 lg:z-30
         w-64 bg-white shadow-lg
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        lg:h-[calc(100vh-4rem)] lg:overflow-y-auto
       `}>
         <div className="h-full flex flex-col">
           {/* Header Mobile */}
