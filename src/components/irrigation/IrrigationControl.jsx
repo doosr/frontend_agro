@@ -11,11 +11,21 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
   const handleToggleIrrigation = async (action) => {
     try {
       setLoading(true);
-      await api.post('/user/irrigation', { action });
-      toast.success(`Arrosage ${action === 'ON' ? 'activé' : 'désactivé'}`);
-      onUpdate?.();
+      const response = await api.post('/user/irrigation', { action });
+
+      if (response.data && response.data.success) {
+        toast.success(`Arrosage ${action === 'ON' ? 'activé' : 'désactivé'}`);
+        onUpdate?.();
+      } else {
+        toast.error(response.data?.message || 'Erreur lors du contrôle de l\'arrosage');
+      }
     } catch (error) {
-      toast.error('Erreur lors du contrôle de l\'arrosage');
+      console.error('Erreur irrigation:', error);
+      const errorMessage = error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        'Erreur lors du contrôle de l\'arrosage';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
