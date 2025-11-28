@@ -3,7 +3,7 @@ import { Settings, Save } from 'lucide-react';
 import Button from '../common/Button';
 import Card from '../common/Card';
 import Input from '../common/Input';
-import api from '../../config/api';
+import api from '../config/api';
 import { toast } from 'react-toastify';
 
 const ThresholdSettings = ({ initialSettings }) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Clock, X, Bell, AlertCircle } from 'lucide-react';
 import Card from '../common/Card';
 import Button from '../common/Button';
-import reminderService from '../services/reminderService';
+import reminderService from '../../services/reminderService';
 import { toast } from 'react-toastify';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
