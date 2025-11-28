@@ -6,7 +6,7 @@ import { useSensorData } from '../hooks/useSensorData';
 import { useAuth } from '../context/AuthContext';
 
 const Irrigation = () => {
-  const { latestData } = useSensorData();
+  const { latestData, refetch } = useSensorData();
   const { user } = useAuth();
 
   return (
@@ -19,7 +19,7 @@ const Irrigation = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <IrrigationControl
           currentState={latestData?.etatPompe === 1}
-          onUpdate={() => { }}
+          onUpdate={refetch}
         />
         <ThresholdSettings initialSettings={user} />
       </div>
