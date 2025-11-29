@@ -49,25 +49,26 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
         </div>
 
         {/* Boutons */}
-        <div className="grid grid-cols-2 gap-4">
-          <Button
-            variant={currentState ? 'secondary' : 'success'}
-            onClick={() => handleToggleIrrigation('ON')}
-            loading={loading}
-            disabled={currentState}
-            className="w-full"
-          >
-            Démarrer
-          </Button>
-          <Button
-            variant={!currentState ? 'secondary' : 'danger'}
-            onClick={() => handleToggleIrrigation('OFF')}
-            loading={loading}
-            disabled={!currentState}
-            className="w-full"
-          >
-            Arrêter
-          </Button>
+        <div className="flex justify-center">
+          {!currentState ? (
+            <Button
+              variant="success"
+              onClick={() => handleToggleIrrigation('ON')}
+              loading={loading}
+              className="w-full max-w-xs"
+            >
+              Démarrer l'arrosage
+            </Button>
+          ) : (
+            <Button
+              variant="danger"
+              onClick={() => handleToggleIrrigation('OFF')}
+              loading={loading}
+              className="w-full max-w-xs"
+            >
+              Arrêter l'arrosage
+            </Button>
+          )}
         </div>
 
         {/* Info */}
