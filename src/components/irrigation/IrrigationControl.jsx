@@ -7,19 +7,38 @@ import { toast } from 'react-toastify';
 
 const IrrigationControl = ({ currentState, onUpdate }) => {
   const [loading, setLoading] = useState(false);
+  const [optimisticState, setOptimisticState] = useState(null);
+
+  // Utiliser l'état optimiste s'il existe, sinon l'état réel
+  const displayState = optimisticState !== null ? optimisticState : currentState;
 
   const handleToggleIrrigation = async (action) => {
+    const desiredState = action === 'ON';
+
     try {
       setLoading(true);
+      // Mise à jour optimiste immédiate
+      setOptimisticState(desiredState);
+
       const response = await api.post('/user/irrigation', { action });
 
       if (response.data && response.data.success) {
         toast.success(`Arrosage ${action === 'ON' ? 'activé' : 'désactivé'}`);
         onUpdate?.();
+
+        // Garder l'état optimiste pendant 3 secondes pour éviter le scintillement
+        // dû aux données de capteurs qui pourraient arriver avec l'ancien état
+        setTimeout(() => {
+          setOptimisticState(null);
+        }, 3000);
       } else {
+        // En cas d'erreur, annuler l'état optimiste
+        setOptimisticState(null);
         toast.error(response.data?.message || 'Erreur lors du contrôle de l\'arrosage');
       }
     } catch (error) {
+      // En cas d'erreur, annuler l'état optimiste
+      setOptimisticState(null);
       console.error('Erreur irrigation:', error);
       const errorMessage = error.response?.data?.message ||
         error.response?.data?.error ||
@@ -39,18 +58,18 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
         <div className="bg-gray-50 rounded-lg p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className={`h-4 w-4 rounded-full ${currentState ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
+              <div className={`h-4 w-4 rounded-full ${displayState ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
               <span className="font-medium text-gray-900">
-                État: {currentState ? 'Activé' : 'Désactivé'}
+                État: {displayState ? 'Activé' : 'Désactivé'}
               </span>
             </div>
-            <Power className={`h-6 w-6 ${currentState ? 'text-green-600' : 'text-gray-400'}`} />
+            <Power className={`h-6 w-6 ${displayState ? 'text-green-600' : 'text-gray-400'}`} />
           </div>
         </div>
 
         {/* Boutons */}
         <div className="flex justify-center">
-          {!currentState ? (
+          {!displayState ? (
             <Button
               variant="success"
               onClick={() => handleToggleIrrigation('ON')}
