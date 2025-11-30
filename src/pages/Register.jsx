@@ -41,8 +41,8 @@ const Register = () => {
         telephone: formData.telephone,
         role: formData.role
       });
-      toast.success('Inscription réussie');
-          navigate('/app/dashboard'); // ← ici
+      toast.success('Inscription réussie ! Veuillez vérifier votre email pour activer votre compte.');
+      navigate('/login');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Erreur lors de l\'inscription');
     } finally {
