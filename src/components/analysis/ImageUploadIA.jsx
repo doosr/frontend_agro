@@ -20,7 +20,7 @@ const ImageUploadIA = () => {
         alert('Veuillez sélectionner une image valide');
         return;
       }
-      
+
       // Vérifier la taille (max 10MB)
       if (file.size > 10 * 1024 * 1024) {
         alert('Image trop grande (max 10MB)');
@@ -29,7 +29,7 @@ const ImageUploadIA = () => {
 
       setSelectedImage(file);
       setResult(null);
-      
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
@@ -46,7 +46,7 @@ const ImageUploadIA = () => {
 
     try {
       setLoading(true);
-      
+
       const formData = new FormData();
       formData.append('image', selectedImage);
       formData.append('capteurId', 'web-upload');
@@ -62,7 +62,7 @@ const ImageUploadIA = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.success) {
         setResult(data);
         alert('✅ Analyse terminée avec succès !');
@@ -166,7 +166,7 @@ const ImageUploadIA = () => {
                   <AlertTriangle className="h-8 w-8 text-red-600" />
                 )}
               </div>
-              
+
               <p className={`text-3xl font-bold mb-4 ${isSain ? 'text-green-700' : 'text-red-700'}`}>
                 {result.predictionFr || result.prediction}
               </p>
@@ -227,7 +227,7 @@ const ImageUploadIA = () => {
             <div className="bg-gray-50 rounded-lg p-4 text-xs text-gray-600">
               <p><strong>Horodatage:</strong> {new Date(result.timestamp).toLocaleString('fr-FR')}</p>
               <p className="mt-1">
-                <strong>État backend:</strong> 
+                <strong>État backend:</strong>
                 <span className={result.backend_sent ? 'text-green-600 ml-2' : 'text-orange-600 ml-2'}>
                   {result.backend_sent ? '✓ Envoyé' : '✗ Non envoyé'}
                 </span>
