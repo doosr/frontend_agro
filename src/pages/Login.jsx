@@ -39,9 +39,15 @@ const Login = () => {
 
     try {
       setLoading(true);
-      await login(formData.email, formData.password);
+      const data = await login(formData.email, formData.password);
       toast.success('Connexion réussie ! 🎉');
-      navigate('/app/dashboard');
+
+      // Redirection basée sur le rôle
+      if (data.user && data.user.role === 'admin') {
+        navigate('/app/users');
+      } else {
+        navigate('/app/dashboard');
+      }
     } catch (error) {
       console.error('Erreur connexion:', error);
       toast.error(error.response?.data?.message || 'Erreur de connexion');
@@ -129,4 +135,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;
