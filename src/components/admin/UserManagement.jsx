@@ -55,11 +55,16 @@ const UserManagement = () => {
 
   const toggleEmailVerification = async (userId, currentStatus) => {
     try {
-      await api.patch(`/user/${userId}/verify-email`);
+      console.log('Tentative de modification du statut email pour:', userId);
+      const response = await api.patch(`/user/${userId}/verify-email`);
+      console.log('Réponse backend:', response.data);
       toast.success(`Email ${!currentStatus ? 'vérifié' : 'non vérifié'} avec succès`);
       fetchUsers();
     } catch (error) {
-      toast.error("Erreur lors de la modification du statut");
+      console.error('Erreur complète:', error);
+      console.error('Réponse erreur:', error.response?.data);
+      const errorMessage = error.response?.data?.message || error.message || "Erreur lors de la modification du statut";
+      toast.error(errorMessage);
     }
   };
 
@@ -187,8 +192,8 @@ const UserManagement = () => {
                       <button
                         onClick={() => toggleEmailVerification(user._id, user.emailVerified)}
                         className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.emailVerified
-                            ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                            : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                          : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                           } transition-colors duration-200`}
                         title="Cliquer pour changer le statut"
                       >
