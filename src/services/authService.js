@@ -45,10 +45,17 @@ const authService = {
   },
 
   resetPassword: async (token, newPassword) => {
-    const response = await api.post('/auth/reset-password', {
-      token,
-      newPassword
+    const response = await api.put(`/auth/reset-password/${token}`, {
+      password: newPassword
     });
+
+    // Si l'API retourne des tokens, les stocker pour connexion automatique
+    if (response.data.accessToken) {
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+
     return response.data;
   }
 };
