@@ -30,7 +30,7 @@ const CapteurManagement = () => {
       const response = await api.get('/capteur');
       setCapteurs(response.data.data);
     } catch (error) {
-      toast.error('Erreur lors du chargement des capteurs');
+      toast.error('Erreur lors du chargement des objets');
     } finally {
       setLoading(false);
     }
@@ -38,16 +38,16 @@ const CapteurManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       if (editingCapteur) {
         await api.put(`/capteur/${editingCapteur._id}`, formData);
-        toast.success('Capteur modifié avec succès');
+        toast.success('Objet modifié avec succès');
       } else {
         await api.post('/capteur', formData);
-        toast.success('Capteur ajouté avec succès');
+        toast.success('Objet ajouté avec succès');
       }
-      
+
       setShowModal(false);
       setEditingCapteur(null);
       setFormData({ nom: '', macAddress: '', localisation: '', userId: '' });
@@ -58,13 +58,13 @@ const CapteurManagement = () => {
   };
 
   const deleteCapteur = async (id) => {
-    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce capteur ?')) {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer cet objet ?')) {
       return;
     }
 
     try {
       await api.delete(`/capteur/${id}`);
-      toast.success('Capteur supprimé avec succès');
+      toast.success('Objet supprimé avec succès');
       fetchCapteurs();
     } catch (error) {
       toast.error('Erreur lors de la suppression');
@@ -84,9 +84,9 @@ const CapteurManagement = () => {
 
   return (
     <div className="space-y-6">
-      <Card 
-        title="Gestion des Capteurs" 
-        subtitle={`${capteurs.length} capteur(s) total`}
+      <Card
+        title="Gestion des Objets"
+        subtitle={`${capteurs.length} objet(s) total`}
         icon={Wifi}
         headerAction={
           <Button
@@ -97,7 +97,7 @@ const CapteurManagement = () => {
               setShowModal(true);
             }}
           >
-            Nouveau Capteur
+            Nouvel Objet
           </Button>
         }
       >
@@ -109,7 +109,7 @@ const CapteurManagement = () => {
             </div>
           ) : capteurs.length === 0 ? (
             <div className="col-span-full text-center py-8 text-gray-500">
-              Aucun capteur configuré
+              Aucun objet configuré
             </div>
           ) : (
             capteurs.map((capteur) => (
@@ -119,9 +119,8 @@ const CapteurManagement = () => {
               >
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center space-x-2">
-                    <div className={`h-3 w-3 rounded-full ${
-                      capteur.actif ? 'bg-green-500' : 'bg-red-500'
-                    }`}></div>
+                    <div className={`h-3 w-3 rounded-full ${capteur.actif ? 'bg-green-500' : 'bg-red-500'
+                      }`}></div>
                     <h4 className="font-semibold text-gray-900">{capteur.nom}</h4>
                   </div>
                   <div className="flex space-x-1">
@@ -139,7 +138,7 @@ const CapteurManagement = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center text-gray-600">
                     <Wifi className="h-4 w-4 mr-2" />
@@ -165,17 +164,17 @@ const CapteurManagement = () => {
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title={editingCapteur ? 'Modifier le capteur' : 'Nouveau capteur'}
+        title={editingCapteur ? 'Modifier l\'objet' : 'Nouvel objet'}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label="Nom du capteur"
+            label="Nom de l'objet"
             value={formData.nom}
             onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
             placeholder="Ex: Capteur Serre 1"
             required
           />
-          
+
           <Input
             label="Adresse MAC"
             value={formData.macAddress}
@@ -184,14 +183,14 @@ const CapteurManagement = () => {
             required
             disabled={editingCapteur !== null}
           />
-          
+
           <Input
             label="Localisation"
             value={formData.localisation}
             onChange={(e) => setFormData({ ...formData, localisation: e.target.value })}
             placeholder="Ex: Serre Nord"
           />
-          
+
           <div className="flex justify-end space-x-3 pt-4">
             <Button
               type="button"
@@ -210,4 +209,4 @@ const CapteurManagement = () => {
   );
 };
 
-export default SensorManagement;
+export default CapteurManagement;

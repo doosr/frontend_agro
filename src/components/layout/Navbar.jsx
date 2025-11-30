@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useAlerts } from '../../hooks/useAlerts';
 import LanguageSwitcher from '../common/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
+import AdminNotifications from '../admin/AdminNotifications';
 
 const Navbar = ({ onMenuClick }) => {
   const { t } = useTranslation();
@@ -37,6 +38,9 @@ const Navbar = ({ onMenuClick }) => {
           {/* Actions */}
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
+
+            {/* Admin Notifications */}
+            <AdminNotifications />
 
             {/* Notifications */}
             <Link
