@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, User, LogOut, Menu } from 'lucide-react';
+import { Bell, User, LogOut, Settings, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAlerts } from '../../hooks/useAlerts';
 import LanguageSwitcher from '../common/LanguageSwitcher';
@@ -72,7 +72,7 @@ const Navbar = ({ onMenuClick }) => {
                 </div>
               </button>
 
-              {/* Dropdown Menu - Identique pour tous les utilisateurs */}
+              {/* Dropdown Menu */}
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
                   <Link
