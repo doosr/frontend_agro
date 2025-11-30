@@ -1,56 +1,42 @@
 import api from '../config/api';
 
 const authService = {
-  async login(email, password) {
-    const response = await api.post('/auth/login', { email, password });
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-    }
-    return response.data;
-  },
-
-  async register(userData) {
+  register: async (userData) => {
     const response = await api.post('/auth/register', userData);
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
+    return response.data;
+  },
+
+  login: async (email, password) => {
+    const response = await api.post('/auth/login', { email, password });
+    if (response.data.accessToken) {
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
       localStorage.setItem('user', JSON.stringify(response.data.user));
     }
     return response.data;
   },
 
-  async forgotPassword(email) {
-    const response = await api.post('/auth/forgot-password', { email });
-    return response.data;
-  },
-
-  async resetPassword(token, password) {
-    const response = await api.put(`/auth/reset-password/${token}`, { password });
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+  logout: async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.error('Erreur logout API:', error);
+    } finally {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
     }
-    return response.data;
   },
 
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = '/login';
+  getCurrentUser: () => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) return JSON.parse(userStr);
+    return null;
   },
 
-  getCurrentUser() {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
-  },
-
-  isAuthenticated() {
-    return !!localStorage.getItem('token');
-  },
-
-  isAdmin() {
-    const user = this.getCurrentUser();
-    return user?.role === 'admin';
+  updateUser: (user) => {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 };
 

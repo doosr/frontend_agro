@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const logout = () => {
-    authService.logout();
+  const logout = async () => {
+    await authService.logout();
     setUser(null);
   };
 
@@ -41,14 +41,14 @@ export const AuthProvider = ({ children }) => {
   console.log('AuthContext user:', user);
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
+    <AuthContext.Provider value={{
+      user,
       setUser,      // ✅ Ajouté
       updateUser,   // ✅ Fonction helper pour mise à jour partielle
-      loading, 
-      login, 
-      register, 
-      logout 
+      loading,
+      login,
+      register,
+      logout
     }}>
       {children}
     </AuthContext.Provider>
