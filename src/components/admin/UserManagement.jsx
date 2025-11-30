@@ -92,7 +92,7 @@ const UserManagement = () => {
     <div className="space-y-6">
       <Card
         title="Gestion des Utilisateurs"
-        subtitle={`${filteredUsers.length} utilisateur(s) (Admins masqués)`}
+        subtitle={`${filteredUsers.length} utilisateur(s)`}
         icon={Users}
         headerAction={
           <Button
