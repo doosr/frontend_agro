@@ -37,53 +37,78 @@ const Navbar = ({ onMenuClick }) => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-              >
-            <div className="bg-primary-600 text-white rounded-full h-10 w-10 flex items-center justify-center font-semibold">
-              {user?.nom?.charAt(0).toUpperCase()}
-            </div>
-            <div className="hidden md:block text-left">
-              <p className="text-sm font-medium text-gray-900">{user?.nom}</p>
-              <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
-            </div>
-          </button>
+            <LanguageSwitcher />
 
-          {/* Dropdown Menu */}
-          {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
+            {/* Admin Notifications (seulement pour les admins) */}
+            {user?.role === 'admin' && <AdminNotifications />}
+
+            {/* Notifications Standard (seulement pour les non-admins) */}
+            {user?.role !== 'admin' && (
               <Link
-                to="/app/profile"
-                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => setShowUserMenu(false)}
+                to="/app/alerts"
+                className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
               >
-                <User className="h-4 w-4 mr-3" />
-                {t('navbar.myProfile')}
+                <Bell className="h-6 w-6" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </Link>
-              <Link
-                to="/app/settings"
-                className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => setShowUserMenu(false)}
-              >
-                <Settings className="h-4 w-4 mr-3" />
-                {t('navbar.settings')}
-              </Link>
-              <hr className="my-1" />
+            )}
+
+            {/* Menu Utilisateur */}
+            <div className="relative">
               <button
-                onClick={() => {
-                  setShowUserMenu(false);
-                  logout();
-                }}
-                className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <LogOut className="h-4 w-4 mr-3" />
-                {t('navbar.logout')}
+                <div className="bg-primary-600 text-white rounded-full h-10 w-10 flex items-center justify-center font-semibold">
+                  {user?.nom?.charAt(0).toUpperCase()}
+                </div>
+                <div className="hidden md:block text-left">
+                  <p className="text-sm font-medium text-gray-900">{user?.nom}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+                </div>
               </button>
+
+              {/* Dropdown Menu */}
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
+                  <Link
+                    to="/app/profile"
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setShowUserMenu(false)}
+                  >
+                    <User className="h-4 w-4 mr-3" />
+                    {t('navbar.myProfile')}
+                  </Link>
+                  <Link
+                    to="/app/settings"
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setShowUserMenu(false)}
+                  >
+                    <Settings className="h-4 w-4 mr-3" />
+                    {t('navbar.settings')}
+                  </Link>
+                  <hr className="my-1" />
+                  <button
+                    onClick={() => {
+                      setShowUserMenu(false);
+                      logout();
+                    }}
+                    className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut className="h-4 w-4 mr-3" />
+                    {t('navbar.logout')}
+                  </button>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
-      </div >
-    </nav >
+    </nav>
   );
 };
 
