@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bell, User, LogOut, Settings, Menu } from 'lucide-react';
+import { Bell, User, LogOut, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useAlerts } from '../../hooks/useAlerts';
 import LanguageSwitcher from '../common/LanguageSwitcher';
@@ -82,14 +82,6 @@ const Navbar = ({ onMenuClick }) => {
                   >
                     <User className="h-4 w-4 mr-3" />
                     {t('navbar.myProfile')}
-                  </Link>
-                  <Link
-                    to="/app/settings"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setShowUserMenu(false)}
-                  >
-                    <Settings className="h-4 w-4 mr-3" />
-                    {t('navbar.settings')}
                   </Link>
                   <hr className="my-1" />
                   <button

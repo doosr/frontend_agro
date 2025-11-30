@@ -18,16 +18,16 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setLoading(true);
       const response = await api.put('/user/profile', formData);
-      
+
       // ✅ Mettre à jour le contexte utilisateur
       if (response.data.user) {
         updateUser(response.data.user);
       }
-      
+
       toast.success(' Profil mis à jour avec succès');
     } catch (error) {
       console.error('Erreur mise à jour profil:', error);
@@ -91,7 +91,7 @@ const Profile = () => {
             <div className="bg-gray-50 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700">Statut Email</p>
               <div className="flex items-center mt-1">
-                {user?.isEmailVerified ? (
+                {user?.emailVerified ? (
                   <>
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                     <p className="text-sm text-green-700">Email vérifié</p>
@@ -105,10 +105,10 @@ const Profile = () => {
               </div>
             </div>
 
-            <Button 
+            <Button
               type="submit"
-              variant="primary" 
-              icon={Save} 
+              variant="primary"
+              icon={Save}
               loading={loading}
               className="w-full"
             >
