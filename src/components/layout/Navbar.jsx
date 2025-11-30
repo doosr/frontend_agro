@@ -59,61 +59,42 @@ const Navbar = ({ onMenuClick }) => {
 
             {/* Menu Utilisateur */}
             <div className="relative">
-              {user?.role === 'admin' ? (
-                // Pour les admins : cliquer sur l'avatar redirige vers la gestion des utilisateurs
-                <Link
-                  to="/app/users"
-                  className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <div className="bg-primary-600 text-white rounded-full h-10 w-10 flex items-center justify-center font-semibold">
-                    {user?.nom?.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="hidden md:block text-left">
-                    <p className="text-sm font-medium text-gray-900">{user?.nom}</p>
-                    <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
-                  </div>
-                </Link>
-              ) : (
-                // Pour les agriculteurs : menu déroulant
-                <>
-                  <button
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                  >
-                    <div className="bg-primary-600 text-white rounded-full h-10 w-10 flex items-center justify-center font-semibold">
-                      {user?.nom?.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="hidden md:block text-left">
-                      <p className="text-sm font-medium text-gray-900">{user?.nom}</p>
-                      <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
-                    </div>
-                  </button>
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <div className="bg-primary-600 text-white rounded-full h-10 w-10 flex items-center justify-center font-semibold">
+                  {user?.nom?.charAt(0).toUpperCase()}
+                </div>
+                <div className="hidden md:block text-left">
+                  <p className="text-sm font-medium text-gray-900">{user?.nom}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+                </div>
+              </button>
 
-                  {/* Dropdown Menu pour agriculteurs */}
-                  {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
-                      <Link
-                        to="/app/profile"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setShowUserMenu(false)}
-                      >
-                        <User className="h-4 w-4 mr-3" />
-                        {t('navbar.myProfile')}
-                      </Link>
-                      <hr className="my-1" />
-                      <button
-                        onClick={() => {
-                          setShowUserMenu(false);
-                          logout();
-                        }}
-                        className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                      >
-                        <LogOut className="h-4 w-4 mr-3" />
-                        {t('navbar.logout')}
-                      </button>
-                    </div>
-                  )}
-                </>
+              {/* Dropdown Menu - Identique pour tous les utilisateurs */}
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50">
+                  <Link
+                    to="/app/profile"
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setShowUserMenu(false)}
+                  >
+                    <User className="h-4 w-4 mr-3" />
+                    {t('navbar.myProfile')}
+                  </Link>
+                  <hr className="my-1" />
+                  <button
+                    onClick={() => {
+                      setShowUserMenu(false);
+                      logout();
+                    }}
+                    className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut className="h-4 w-4 mr-3" />
+                    {t('navbar.logout')}
+                  </button>
+                </div>
               )}
             </div>
           </div>
