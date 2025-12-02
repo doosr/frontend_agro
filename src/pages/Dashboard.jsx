@@ -6,11 +6,13 @@ import AlertPanel from '../components/dashboard/AlertPanel';
 import Loader from '../components/common/Loader';
 import { useSensorData } from '../hooks/useSensorData';
 import { useAlerts } from '../hooks/useAlerts';
+import { useAuth } from '../context/AuthContext';
 import sensorService from '../services/sensorService';
 import { useTranslation } from 'react-i18next';
 
 const Dashboard = () => {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const { latestData, loading: sensorLoading } = useSensorData();
   const { alerts, markAsRead } = useAlerts();
   const [historicalData, setHistoricalData] = useState([]);
@@ -85,7 +87,7 @@ const Dashboard = () => {
     }
   };
 
-  const userName = localStorage.getItem('userName') || 'Utilisateur';
+  const userName = user?.nom || user?.username || 'Utilisateur';
   const systemStatus = getSystemStatus();
 
   if (loading || sensorLoading) {
