@@ -54,15 +54,6 @@ const DiagnosticResult = ({ result }) => {
       icon={isSain ? CheckCircle : AlertTriangle}
     >
       <div className="space-y-6">
-        {/* Image analysée */}
-        <div className="relative">
-          <img
-            src={`${process.env.REACT_APP_API_URL?.replace('/api', '')}/${result.path}`}
-            alt="Plante analysée"
-            className="w-full h-64 object-cover rounded-lg"
-          />
-        </div>
-
         {/* Diagnostic */}
         <div className={`p-4 rounded-lg ${isSain ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
           <div className="flex items-center justify-between mb-2">
