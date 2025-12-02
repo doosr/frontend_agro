@@ -13,17 +13,10 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
   // Utiliser l'état optimiste s'il existe, sinon l'état réel
   const displayState = optimisticState !== null ? optimisticState : currentState;
 
-  // Surveiller currentState pour annuler l'optimiste quand les données réelles correspondent
-  useEffect(() => {
-    if (optimisticState !== null && currentState === optimisticState) {
-      // Les données réelles correspondent à l'action demandée, on peut annuler l'optimiste
-      setOptimisticState(null);
-      if (optimisticTimer.current) {
-        clearTimeout(optimisticTimer.current);
-        optimisticTimer.current = null;
-      }
-    }
-  }, [currentState, optimisticState]);
+  // Note: Le useEffect qui annulait l'optimiste automatiquement a été désactivé
+  // pour éviter que le bouton ne revienne trop vite à l'état précédent
+  // si des données "stale" arrivent avant que l'ESP32 ne traite la commande.
+  // L'état optimiste s'annulera après 15 secondes (timeout de sécurité).
 
   const handleToggleIrrigation = async (action) => {
     const desiredState = action === 'ON';
@@ -39,13 +32,8 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
         toast.success(`Arrosage ${action === 'ON' ? 'activé' : 'désactivé'}`);
         onUpdate?.();
 
-        // Timeout de sécurité prolongé (15s) si les données ne reviennent jamais
-        if (optimisticTimer.current) clearTimeout(optimisticTimer.current);
-        optimisticTimer.current = setTimeout(() => {
-          console.log('⏰ Timeout optimiste - Annulation après 15s');
-          setOptimisticState(null);
-          optimisticTimer.current = null;
-        }, 15000);
+        // L'état optimiste reste permanent - seul un nouveau clic le changera
+        // Ceci garantit un contrôle manuel vrai, indépendant des données automatiques
       } else {
         // En cas d'erreur, annuler l'état optimiste
         setOptimisticState(null);
