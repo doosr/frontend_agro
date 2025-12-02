@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Power, Droplets, Calendar } from 'lucide-react';
 import Button from '../common/Button';
 import Card from '../common/Card';
@@ -8,9 +8,22 @@ import { toast } from 'react-toastify';
 const IrrigationControl = ({ currentState, onUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [optimisticState, setOptimisticState] = useState(null);
+  const optimisticTimer = useRef(null);
 
   // Utiliser l'état optimiste s'il existe, sinon l'état réel
   const displayState = optimisticState !== null ? optimisticState : currentState;
+
+  // Surveiller currentState pour annuler l'optimiste quand les données réelles correspondent
+  useEffect(() => {
+    if (optimisticState !== null && currentState === optimisticState) {
+      // Les données réelles correspondent à l'action demandée, on peut annuler l'optimiste
+      setOptimisticState(null);
+      if (optimisticTimer.current) {
+        clearTimeout(optimisticTimer.current);
+        optimisticTimer.current = null;
+      }
+    }
+  }, [currentState, optimisticState]);
 
   const handleToggleIrrigation = async (action) => {
     const desiredState = action === 'ON';
@@ -26,11 +39,12 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
         toast.success(`Arrosage ${action === 'ON' ? 'activé' : 'désactivé'}`);
         onUpdate?.();
 
-        // Garder l'état optimiste pendant 3 secondes pour éviter le scintillement
-        // dû aux données de capteurs qui pourraient arriver avec l'ancien état
-        setTimeout(() => {
+        // Timeout de sécurité si les données ne reviennent jamais (max 10s)
+        if (optimisticTimer.current) clearTimeout(optimisticTimer.current);
+        optimisticTimer.current = setTimeout(() => {
           setOptimisticState(null);
-        }, 3000);
+          optimisticTimer.current = null;
+        }, 10000);
       } else {
         // En cas d'erreur, annuler l'état optimiste
         setOptimisticState(null);
