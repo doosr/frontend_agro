@@ -259,7 +259,7 @@ const UserManagement = () => {
             label="Téléphone"
             value={newUser.telephone}
             onChange={(e) => setNewUser({ ...newUser, telephone: e.target.value })}
-            placeholder="+33 6 12 34 56 78"
+            placeholder="+216 12 34 56 78"
           />
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
