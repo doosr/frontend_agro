@@ -1,80 +1,201 @@
 {
-    "login": {
-        "title": "SmartPlant IA",
-        "subtitle": "Connectez-vous à votre compte",
-        "email": "Email",
-        "password": "Mot de passe",
-        "forgotPassword": "Mot de passe oublié ?",
-        "submit": "Se connecter",
-        "noAccount": "Pas encore de compte ?",
-        "register": "S'inscrire",
-        "demo": "Comptes de démonstration"
+  "login": {
+    "title": "SmartPlant IA",
+    "subtitle": "Connectez-vous à votre compte",
+    "email": "Email",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "submit": "Se connecter",
+    "noAccount": "Pas encore de compte ?",
+    "register": "S'inscrire",
+    "demo": "Comptes de démonstration"
+  },
+  "register": {
+    "title": "Créer un compte",
+    "subtitle": "Rejoignez SmartPlant IA",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "submit": "S'inscrire",
+    "hasAccount": "Déjà un compte ?",
+    "login": "Se connecter"
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié",
+    "subtitle": "Entrez votre email pour réinitialiser votre mot de passe",
+    "emailRequired": "L'email est requis",
+    "sendInstructions": "Envoyer les instructions",
+    "backToLogin": "Retour à la connexion"
+  },
+  "resetPassword": {
+    "title": "Réinitialiser le mot de passe",
+    "subtitle": "Entrez votre nouveau mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "passwordPlaceholder": "Entrez votre nouveau mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+    "submit": "Réinitialiser le mot de passe",
+    "backToLogin": "Retour à la connexion",
+    "passwordRequired": "Le mot de passe est requis",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+    "confirmPasswordRequired": "La confirmation du mot de passe est requise",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "success": "Mot de passe réinitialisé avec succès !",
+    "error": "Une erreur est survenue lors de la réinitialisation",
+    "invalidToken": "Le lien est invalide ou a expiré"
+  },
+  "dashboard": {
+    "title": "Tableau de Bord",
+    "subtitle": "Vue d'ensemble de votre système SmartPlant",
+    "greeting": {
+      "morning": "Bonjour",
+      "evening": "Bonsoir"
     },
-    "forgotPassword": {
-        "title": "Mot de passe oublié",
-        "subtitle": "Entrez votre email pour réinitialiser votre mot de passe",
-        "emailRequired": "L'email est requis",
-        "sendInstructions": "Envoyer les instructions",
-        "backToLogin": "Retour à la connexion"
+    "status": {
+      "optimal": "Toutes les conditions sont optimales",
+      "warning": "paramètre(s) à surveiller",
+      "critical": "Conditions nécessitent votre attention",
+      "noData": "Données non disponibles"
     },
-    "resetPassword": {
-        "title": "Réinitialiser le mot de passe",
-        "subtitle": "Entrez votre nouveau mot de passe",
-        "newPassword": "Nouveau mot de passe",
-        "confirmPassword": "Confirmer le mot de passe",
-        "passwordPlaceholder": "Entrez votre nouveau mot de passe",
-        "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
-        "submit": "Réinitialiser le mot de passe",
-        "backToLogin": "Retour à la connexion",
-        "passwordRequired": "Le mot de passe est requis",
-        "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
-        "confirmPasswordRequired": "La confirmation du mot de passe est requise",
-        "passwordMismatch": "Les mots de passe ne correspondent pas",
-        "success": "Mot de passe réinitialisé avec succès !",
-        "error": "Une erreur est survenue lors de la réinitialisation",
-        "invalidToken": "Le lien est invalide ou a expiré"
+    "soilHumidity": "Humidité du Sol",
+    "temperature": "Température",
+    "airHumidity": "Humidité de l'Air",
+    "luminosity": "Luminosité",
+    "evolution": "Évolution des Paramètres (24h)",
+    "statistics": "Statistiques (24h)",
+    "avgSoilHumidity": "Humidité Sol Moyenne",
+    "avgTemperature": "Temp. Moyenne",
+    "avgAirHumidity": "Humidité Air Moyenne",
+    "avgLuminosity": "Luminosité Moyenne",
+    "loading": "Chargement du tableau de bord..."
+  },
+  "sensors": {
+    "title": "Capteurs",
+    "subtitle": "Surveillance en temps réel de vos capteurs",
+    "latestData": "Dernières données",
+    "history": "Historique",
+    "noData": "Aucune donnée disponible"
+  },
+  "irrigation": {
+    "title": "Irrigation",
+    "subtitle": "Contrôle et gestion de l'irrigation",
+    "manual": "Manuel",
+    "automatic": "Automatique",
+    "start": "Démarrer",
+    "stop": "Arrêter",
+    "status": "Statut",
+    "history": "Historique d'irrigation",
+    "duration": "Durée"
+  },
+  "analysis": {
+    "title": "Analyse IA des Plantes",
+    "subtitle": "Détection automatique des maladies par intelligence artificielle",
+    "upload": "Analyser une Image",
+    "selectImage": "Cliquez pour sélectionner une image",
+    "dragDrop": "ou glissez-déposez une image ici",
+    "analyzing": "Analyse en cours...",
+    "result": "Résultat de l'Analyse",
+    "recommendations": "Recommandations",
+    "confidence": "Confiance",
+    "diseaseDetected": "Maladie détectée",
+    "severity": "Sévérité",
+    "wateringNeeded": "Arrosage nécessaire",
+    "modelUsed": "Modèle utilisé",
+    "timestamp": "Horodatage",
+    "backendStatus": "État backend",
+    "newAnalysis": "Analyser une nouvelle image"
+  },
+  "alerts": {
+    "title": "Alertes",
+    "subtitle": "Notifications et alertes système",
+    "markAsRead": "Marquer comme lu",
+    "delete": "Supprimer",
+    "noAlerts": "Aucune alerte"
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "subtitle": "Gérez vos informations personnelles",
+    "personalInfo": "Informations Personnelles",
+    "security": "Sécurité",
+    "changePassword": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Configuration de l'application",
+    "language": "Langue",
+    "theme": "Thème",
+    "notifications": "Notifications",
+    "emailNotifications": "Notifications par email",
+    "pushNotifications": "Notifications push",
+    "save": "Enregistrer les modifications"
+  },
+  "admin": {
+    "users": {
+      "title": "Gestion des Utilisateurs",
+      "subtitle": "Administrer les comptes utilisateurs",
+      "addUser": "Ajouter un utilisateur",
+      "editUser": "Modifier l'utilisateur",
+      "deleteUser": "Supprimer l'utilisateur",
+      "role": "Rôle",
+      "status": "Statut",
+      "actions": "Actions"
     },
-    "dashboard": {
-        "title": "Tableau de Bord",
-        "subtitle": "Vue d'ensemble de votre système SmartPlant",
-        "soilHumidity": "Humidité du Sol",
-        "temperature": "Température",
-        "airHumidity": "Humidité de l'Air",
-        "luminosity": "Luminosité",
-        "evolution": "Évolution des Paramètres (24h)",
-        "statistics": "Statistiques (24h)",
-        "avgSoilHumidity": "Humidité Sol Moyenne",
-        "avgTemperature": "Temp. Moyenne",
-        "avgAirHumidity": "Humidité Air Moyenne",
-        "avgLuminosity": "Luminosité Moyenne",
-        "loading": "Chargement du tableau de bord..."
-    },
-    "navbar": {
-        "myProfile": "Mon Profil",
-        "settings": "Paramètres",
-        "logout": "Déconnexion"
-    },
-    "sidebar": {
-        "dashboard": "Tableau de Bord",
-        "sensors": "Capteurs",
-        "irrigation": "Irrigation",
-        "analysis": "Analyse",
-        "alerts": "Alertes",
-        "settings": "Paramètres",
-        "profile": "Profil",
-        "admin": "Administration",
-        "users": "Utilisateurs",
-        "sensorsAdmin": "Gestion Capteurs"
-    },
-    "common": {
-        "loading": "Chargement...",
-        "error": "Une erreur est survenue",
-        "success": "Succès",
-        "save": "Enregistrer",
-        "cancel": "Annuler",
-        "delete": "Supprimer",
-        "edit": "Modifier",
-        "add": "Ajouter",
-        "search": "Rechercher"
+    "sensors": {
+      "title": "Gestion des Capteurs",
+      "subtitle": "Configurer et gérer les capteurs",
+      "addSensor": "Ajouter un capteur",
+      "editSensor": "Modifier le capteur",
+      "deleteSensor": "Supprimer le capteur",
+      "sensorId": "ID Capteur",
+      "location": "Emplacement",
+      "type": "Type"
     }
+  },
+  "navbar": {
+    "myProfile": "Mon Profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "help": "Aide & Support",
+    "contactSupport": "Besoin d'aide ? Contactez le support"
+  },
+  "sidebar": {
+    "dashboard": "Tableau de Bord",
+    "sensors": "Capteurs",
+    "irrigation": "Irrigation",
+    "analysis": "Analyse IA",
+    "alerts": "Alertes",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "admin": "Administration",
+    "users": "Utilisateurs",
+    "sensorsAdmin": "Gestion Capteurs"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "success": "Succès",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter",
+    "import": "Importer",
+    "refresh": "Actualiser",
+    "close": "Fermer",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non",
+    "all": "Tous",
+    "none": "Aucun",
+    "select": "Sélectionner"
+  }
 }

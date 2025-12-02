@@ -1,21 +1,34 @@
 {
     "login": {
-        "title": "SmartPlant IA",
+        "title": "SmartPlant الذكاء الاصطناعي",
         "subtitle": "تسجيل الدخول إلى حسابك",
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",
-        "forgotPassword": "نسيت كلمة المرور؟",
+        "forgotPassword": "هل نسيت كلمة المرور؟",
         "submit": "تسجيل الدخول",
         "noAccount": "ليس لديك حساب؟",
         "register": "إنشاء حساب",
         "demo": "حسابات تجريبية"
+    },
+    "register": {
+        "title": "إنشاء حساب",
+        "subtitle": "انضم إلى SmartPlant",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "password": "كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "submit": "إنشاء حساب",
+        "hasAccount": "لديك حساب بالفعل؟",
+        "login": "تسجيل الدخول"
     },
     "forgotPassword": {
         "title": "نسيت كلمة المرور",
         "subtitle": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
         "emailRequired": "البريد الإلكتروني مطلوب",
         "sendInstructions": "إرسال التعليمات",
-        "backToLogin": "العودة لتسجيل الدخول"
+        "backToLogin": "العودة إلى تسجيل الدخول"
     },
     "resetPassword": {
         "title": "إعادة تعيين كلمة المرور",
@@ -25,40 +38,137 @@
         "passwordPlaceholder": "أدخل كلمة المرور الجديدة",
         "confirmPasswordPlaceholder": "أكد كلمة المرور",
         "submit": "إعادة تعيين كلمة المرور",
-        "backToLogin": "العودة لتسجيل الدخول",
+        "backToLogin": "العودة إلى تسجيل الدخول",
         "passwordRequired": "كلمة المرور مطلوبة",
         "passwordMinLength": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل",
         "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب",
         "passwordMismatch": "كلمات المرور غير متطابقة",
         "success": "تم إعادة تعيين كلمة المرور بنجاح!",
-        "error": "حدث خطأ أثناء إعادة تعيين كلمة المرور",
+        "error": "حدث خطأ أثناء إعادة التعيين",
         "invalidToken": "الرابط غير صالح أو منتهي الصلاحية"
     },
     "dashboard": {
         "title": "لوحة التحكم",
         "subtitle": "نظرة عامة على نظام SmartPlant الخاص بك",
+        "greeting": {
+            "morning": "صباح الخير",
+            "evening": "مساء الخير"
+        },
+        "status": {
+            "optimal": "جميع الظروف مثالية",
+            "warning": "معلمة (معلمات) تحتاج إلى المراقبة",
+            "critical": "الظروف تتطلب انتباهك",
+            "noData": "البيانات غير متوفرة"
+        },
         "soilHumidity": "رطوبة التربة",
         "temperature": "درجة الحرارة",
         "airHumidity": "رطوبة الهواء",
         "luminosity": "الإضاءة",
-        "evolution": "تطور المعايير (24 ساعة)",
-        "statistics": "إحصائيات (24 ساعة)",
+        "evolution": "تطور المعاملات (24 ساعة)",
+        "statistics": "الإحصائيات (24 ساعة)",
         "avgSoilHumidity": "متوسط رطوبة التربة",
         "avgTemperature": "متوسط درجة الحرارة",
         "avgAirHumidity": "متوسط رطوبة الهواء",
         "avgLuminosity": "متوسط الإضاءة",
-        "loading": "جار تحميل لوحة التحكم..."
+        "loading": "جاري تحميل لوحة التحكم..."
+    },
+    "sensors": {
+        "title": "أجهزة الاستشعار",
+        "subtitle": "مراقبة أجهزة الاستشعار في الوقت الفعلي",
+        "latestData": "أحدث البيانات",
+        "history": "التاريخ",
+        "noData": "لا توجد بيانات متاحة"
+    },
+    "irrigation": {
+        "title": "الري",
+        "subtitle": "التحكم وإدارة الري",
+        "manual": "يدوي",
+        "automatic": "تلقائي",
+        "start": "ابدأ",
+        "stop": "توقف",
+        "status": "الحالة",
+        "history": "تاريخ الري",
+        "duration": "المدة"
+    },
+    "analysis": {
+        "title": "تحليل النباتات بالذكاء الاصطناعي",
+        "subtitle": "الكشف التلقائي عن الأمراض باستخدام الذكاء الاصطناعي",
+        "upload": "تحليل صورة",
+        "selectImage": "انقر لاختيار صورة",
+        "dragDrop": "أو اسحب وأفلت صورة هنا",
+        "analyzing": "جاري التحليل...",
+        "result": "نتيجة التحليل",
+        "recommendations": "التوصيات",
+        "confidence": "الثقة",
+        "diseaseDetected": "تم اكتشاف المرض",
+        "severity": "الخطورة",
+        "wateringNeeded": "الري مطلوب",
+        "modelUsed": "النموذج المستخدم",
+        "timestamp": "الوقت والتاريخ",
+        "backendStatus": "حالة الخادم",
+        "newAnalysis": "تحليل صورة جديدة"
+    },
+    "alerts": {
+        "title": "التنبيهات",
+        "subtitle": "إشعارات وتنبيهات النظام",
+        "markAsRead": "وضع علامة كمقروء",
+        "delete": "حذف",
+        "noAlerts": "لا توجد تنبيهات"
+    },
+    "profile": {
+        "title": "ملفي الشخصي",
+        "subtitle": "إدارة معلوماتك الشخصية",
+        "personalInfo": "المعلومات الشخصية",
+        "security": "الأمان",
+        "changePassword": "تغيير كلمة المرور",
+        "currentPassword": "كلمة المرور الحالية",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور"
+    },
+    "settings": {
+        "title": "الإعدادات",
+        "subtitle": "تكوين التطبيق",
+        "language": "اللغة",
+        "theme": "السمة",
+        "notifications": "الإشعارات",
+        "emailNotifications": "إشعارات البريد الإلكتروني",
+        "pushNotifications": "الإشعارات الفورية",
+        "save": "حفظ التغييرات"
+    },
+    "admin": {
+        "users": {
+            "title": "إدارة المستخدمين",
+            "subtitle": "إدارة حسابات المستخدمين",
+            "addUser": "إضافة مستخدم",
+            "editUser": "تعديل المستخدم",
+            "deleteUser": "حذف المستخدم",
+            "role": "الدور",
+            "status": "الحالة",
+            "actions": "الإجراءات"
+        },
+        "sensors": {
+            "title": "إدارة أجهزة الاستشعار",
+            "subtitle": "تكوين وإدارة أجهزة الاستشعار",
+            "addSensor": "إضافة جهاز استشعار",
+            "editSensor": "تعديل جهاز الاستشعار",
+            "deleteSensor": "حذف جهاز الاستشعار",
+            "sensorId": "معرف جهاز الاستشعار",
+            "location": "الموقع",
+            "type": "النوع"
+        }
     },
     "navbar": {
         "myProfile": "ملفي الشخصي",
         "settings": "الإعدادات",
-        "logout": "تسجيل الخروج"
+        "logout": "تسجيل الخروج",
+        "help": "المساعدة والدعم",
+        "contactSupport": "هل تحتاج إلى مساعدة؟ اتصل بالدعم"
     },
     "sidebar": {
         "dashboard": "لوحة التحكم",
         "sensors": "أجهزة الاستشعار",
         "irrigation": "الري",
-        "analysis": "التحليل",
+        "analysis": "التحليل بالذكاء الاصطناعي",
         "alerts": "التنبيهات",
         "settings": "الإعدادات",
         "profile": "الملف الشخصي",
@@ -69,12 +179,23 @@
     "common": {
         "loading": "جاري التحميل...",
         "error": "حدث خطأ",
-        "success": "نجاح",
+        "success": "نجح",
         "save": "حفظ",
         "cancel": "إلغاء",
         "delete": "حذف",
         "edit": "تعديل",
         "add": "إضافة",
-        "search": "بحث"
+        "search": "بحث",
+        "filter": "تصفية",
+        "export": "تصدير",
+        "import": "استيراد",
+        "refresh": "تحديث",
+        "close": "إغلاق",
+        "confirm": "تأكيد",
+        "yes": "نعم",
+        "no": "لا",
+        "all": "الكل",
+        "none": "لا شيء",
+        "select": "اختر"
     }
 }

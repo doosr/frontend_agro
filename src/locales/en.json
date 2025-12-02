@@ -1,70 +1,180 @@
 {
     "login": {
         "title": "SmartPlant AI",
-        "subtitle": "Sign in to your account",
+        "subtitle": "Log in to your account",
         "email": "Email",
         "password": "Password",
         "forgotPassword": "Forgot password?",
-        "submit": "Sign in",
-        "noAccount": "No account yet?",
-        "register": "Sign up",
-        "demo": "Demo accounts"
+        "submit": "Sign In",
+        "noAccount": "Don't have an account?",
+        "register": "Sign Up",
+        "demo": "Demo Accounts"
+    },
+    "register": {
+        "title": "Create Account",
+        "subtitle": "Join SmartPlant AI",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "submit": "Sign Up",
+        "hasAccount": "Already have an account?",
+        "login": "Sign In"
     },
     "forgotPassword": {
         "title": "Forgot Password",
         "subtitle": "Enter your email to reset your password",
         "emailRequired": "Email is required",
-        "sendInstructions": "Send instructions",
-        "backToLogin": "Back to login"
+        "sendInstructions": "Send Instructions",
+        "backToLogin": "Back to Login"
     },
     "resetPassword": {
         "title": "Reset Password",
         "subtitle": "Enter your new password",
-        "newPassword": "New password",
-        "confirmPassword": "Confirm password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
         "passwordPlaceholder": "Enter your new password",
         "confirmPasswordPlaceholder": "Confirm your password",
-        "submit": "Reset password",
-        "backToLogin": "Back to login",
+        "submit": "Reset Password",
+        "backToLogin": "Back to Login",
         "passwordRequired": "Password is required",
         "passwordMinLength": "Password must be at least 6 characters",
         "confirmPasswordRequired": "Password confirmation is required",
         "passwordMismatch": "Passwords do not match",
         "success": "Password reset successfully!",
-        "error": "An error occurred during password reset",
-        "invalidToken": "The link is invalid or has expired"
+        "error": "An error occurred during reset",
+        "invalidToken": "Link is invalid or expired"
     },
     "dashboard": {
         "title": "Dashboard",
         "subtitle": "Overview of your SmartPlant system",
-        "soilHumidity": "Soil Humidity",
+        "greeting": {
+            "morning": "Good morning",
+            "evening": "Good evening"
+        },
+        "status": {
+            "optimal": "All conditions are optimal",
+            "warning": "parameter(s) to monitor",
+            "critical": "Conditions require your attention",
+            "noData": "Data unavailable"
+        },
+        "soilHumidity": "Soil Moisture",
         "temperature": "Temperature",
         "airHumidity": "Air Humidity",
         "luminosity": "Luminosity",
-        "evolution": "Parameters Evolution (24h)",
+        "evolution": "Parameter Evolution (24h)",
         "statistics": "Statistics (24h)",
-        "avgSoilHumidity": "Avg Soil Humidity",
+        "avgSoilHumidity": "Avg Soil Moisture",
         "avgTemperature": "Avg Temperature",
         "avgAirHumidity": "Avg Air Humidity",
         "avgLuminosity": "Avg Luminosity",
         "loading": "Loading dashboard..."
     },
+    "sensors": {
+        "title": "Sensors",
+        "subtitle": "Real-time sensor monitoring",
+        "latestData": "Latest data",
+        "history": "History",
+        "noData": "No data available"
+    },
+    "irrigation": {
+        "title": "Irrigation",
+        "subtitle": "Irrigation control and management",
+        "manual": "Manual",
+        "automatic": "Automatic",
+        "start": "Start",
+        "stop": "Stop",
+        "status": "Status",
+        "history": "Irrigation History",
+        "duration": "Duration"
+    },
+    "analysis": {
+        "title": "Plant AI Analysis",
+        "subtitle": "Automatic disease detection with artificial intelligence",
+        "upload": "Analyze an Image",
+        "selectImage": "Click to select an image",
+        "dragDrop": "or drag and drop an image here",
+        "analyzing": "Analyzing...",
+        "result": "Analysis Result",
+        "recommendations": "Recommendations",
+        "confidence": "Confidence",
+        "diseaseDetected": "Disease Detected",
+        "severity": "Severity",
+        "wateringNeeded": "Watering Needed",
+        "modelUsed": "Model Used",
+        "timestamp": "Timestamp",
+        "backendStatus": "Backend Status",
+        "newAnalysis": "Analyze a new image"
+    },
+    "alerts": {
+        "title": "Alerts",
+        "subtitle": "System notifications and alerts",
+        "markAsRead": "Mark as read",
+        "delete": "Delete",
+        "noAlerts": "No alerts"
+    },
+    "profile": {
+        "title": "My Profile",
+        "subtitle": "Manage your personal information",
+        "personalInfo": "Personal Information",
+        "security": "Security",
+        "changePassword": "Change Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password"
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Application configuration",
+        "language": "Language",
+        "theme": "Theme",
+        "notifications": "Notifications",
+        "emailNotifications": "Email Notifications",
+        "pushNotifications": "Push Notifications",
+        "save": "Save Changes"
+    },
+    "admin": {
+        "users": {
+            "title": "User Management",
+            "subtitle": "Manage user accounts",
+            "addUser": "Add User",
+            "editUser": "Edit User",
+            "deleteUser": "Delete User",
+            "role": "Role",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "sensors": {
+            "title": "Sensor Management",
+            "subtitle": "Configure and manage sensors",
+            "addSensor": "Add Sensor",
+            "editSensor": "Edit Sensor",
+            "deleteSensor": "Delete Sensor",
+            "sensorId": "Sensor ID",
+            "location": "Location",
+            "type": "Type"
+        }
+    },
     "navbar": {
         "myProfile": "My Profile",
         "settings": "Settings",
-        "logout": "Logout"
+        "logout": "Logout",
+        "help": "Help & Support",
+        "contactSupport": "Need help? Contact support"
     },
     "sidebar": {
         "dashboard": "Dashboard",
         "sensors": "Sensors",
         "irrigation": "Irrigation",
-        "analysis": "Analysis",
+        "analysis": "AI Analysis",
         "alerts": "Alerts",
         "settings": "Settings",
         "profile": "Profile",
         "admin": "Administration",
         "users": "Users",
-        "sensorsAdmin": "Sensors Management"
+        "sensorsAdmin": "Sensor Management"
     },
     "common": {
         "loading": "Loading...",
@@ -75,6 +185,17 @@
         "delete": "Delete",
         "edit": "Edit",
         "add": "Add",
-        "search": "Search"
+        "search": "Search",
+        "filter": "Filter",
+        "export": "Export",
+        "import": "Import",
+        "refresh": "Refresh",
+        "close": "Close",
+        "confirm": "Confirm",
+        "yes": "Yes",
+        "no": "No",
+        "all": "All",
+        "none": "None",
+        "select": "Select"
     }
 }
