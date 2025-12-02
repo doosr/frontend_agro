@@ -37,6 +37,57 @@ const Dashboard = () => {
     }
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 18 || hour < 6) return 'Bonsoir';
+    return 'Bonjour';
+  };
+
+  const getSystemStatus = () => {
+    if (!latestData) return { status: 'unknown', message: 'Données non disponibles', color: 'gray' };
+
+    // Vérifier les valeurs critiques
+    const issues = [];
+
+    // Humidité sol (optimal: 30-70)
+    if (latestData.humiditeSol < 30) issues.push('Sol trop sec');
+    if (latestData.humiditeSol > 70) issues.push('Sol trop humide');
+
+    // Température air (optimal: 18-28°C)  
+    if (latestData.temperatureAir < 18) issues.push('Température basse');
+    if (latestData.temperatureAir > 28) issues.push('Température élevée');
+
+    // Humidité air (optimal: 40-70%)
+    if (latestData.humiditeAir < 40) issues.push('Air trop sec');
+    if (latestData.humiditeAir > 70) issues.push('Air trop humide');
+
+    if (issues.length === 0) {
+      return {
+        status: 'good',
+        message: 'Toutes les conditions sont optimales',
+        color: 'green',
+        icon: '✓'
+      };
+    } else if (issues.length <= 2) {
+      return {
+        status: 'warning',
+        message: `${issues.length} paramètre(s) à surveiller`,
+        color: 'yellow',
+        icon: '⚠'
+      };
+    } else {
+      return {
+        status: 'bad',
+        message: 'Conditions nécessitent votre attention',
+        color: 'red',
+        icon: '✗'
+      };
+    }
+  };
+
+  const userName = localStorage.getItem('userName') || 'Utilisateur';
+  const systemStatus = getSystemStatus();
+
   if (loading || sensorLoading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -47,6 +98,28 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
+      {/* Bannière de bienvenue avec statut */}
+      <div className={`bg-gradient-to-r ${systemStatus.color === 'green' ? 'from-green-500 to-green-600' :
+          systemStatus.color === 'yellow' ? 'from-yellow-500 to-yellow-600' :
+            systemStatus.color === 'red' ? 'from-red-500 to-red-600' :
+              'from-gray-500 to-gray-600'
+        } rounded-xl shadow-lg p-6 text-white`}>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold mb-2">
+              {getGreeting()}, {userName} !
+            </h2>
+            <p className="text-white/90 text-lg">
+              {systemStatus.icon} {systemStatus.message}
+            </p>
+          </div>
+          <div className="text-5xl opacity-80">
+            {systemStatus.status === 'good' ? '😊' :
+              systemStatus.status === 'warning' ? '😐' : '😟'}
+          </div>
+        </div>
+      </div>
+
       {/* En-tête */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
