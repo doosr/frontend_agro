@@ -44,9 +44,80 @@ const DiagnosticResult = ({ result }) => {
   const maladie = data.maladie || data.predictionFr || data.prediction;
   const confiance = data.confiance || data.confidence;
   const recommandations = data.recommandations || data.recommendations;
+  const severity = data.severity || 'none';
 
   const isSain = maladie === 'Sain' || maladie === 'Tomato_healthy';
   const confidence = (confiance * 100).toFixed(1);
+
+  // Fonction pour obtenir les couleurs basées sur la sévérité
+  const getSeverityColors = () => {
+    if (isSain || severity === 'none') {
+      return {
+        bg: 'bg-green-50',
+        border: 'border-green-200',
+        text: 'text-green-700',
+        icon: 'text-green-600',
+        badge: 'bg-green-100 text-green-800'
+      };
+    }
+
+    switch (severity) {
+      case 'low':
+        return {
+          bg: 'bg-yellow-50',
+          border: 'border-yellow-200',
+          text: 'text-yellow-700',
+          icon: 'text-yellow-600',
+          badge: 'bg-yellow-100 text-yellow-800'
+        };
+      case 'medium':
+        return {
+          bg: 'bg-orange-50',
+          border: 'border-orange-200',
+          text: 'text-orange-700',
+          icon: 'text-orange-600',
+          badge: 'bg-orange-100 text-orange-800'
+        };
+      case 'high':
+        return {
+          bg: 'bg-red-50',
+          border: 'border-red-200',
+          text: 'text-red-700',
+          icon: 'text-red-600',
+          badge: 'bg-red-100 text-red-800'
+        };
+      default:
+        return {
+          bg: 'bg-gray-50',
+          border: 'border-gray-200',
+          text: 'text-gray-700',
+          icon: 'text-gray-600',
+          badge: 'bg-gray-100 text-gray-800'
+        };
+    }
+  };
+
+  // Fonction pour obtenir la couleur de la barre de confiance
+  const getConfidenceColor = () => {
+    const conf = parseFloat(confidence);
+    if (conf >= 90) return isSain ? 'bg-green-600' : 'bg-red-600';
+    if (conf >= 70) return isSain ? 'bg-green-500' : 'bg-orange-500';
+    if (conf >= 50) return 'bg-yellow-500';
+    return 'bg-gray-400';
+  };
+
+  // Traduction de la sévérité
+  const getSeverityLabel = () => {
+    const labels = {
+      'none': 'Aucune',
+      'low': 'Faible',
+      'medium': 'Moyenne',
+      'high': 'Élevée'
+    };
+    return labels[severity] || severity;
+  };
+
+  const colors = getSeverityColors();
 
   return (
     <Card
@@ -55,26 +126,32 @@ const DiagnosticResult = ({ result }) => {
     >
       <div className="space-y-6">
         {/* Diagnostic */}
-        <div className={`p-4 rounded-lg ${isSain ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-          <div className="flex items-center justify-between mb-2">
+        <div className={`p-6 rounded-lg ${colors.bg} border-2 ${colors.border}`}>
+          <div className="flex items-center justify-between mb-3">
             <h4 className="text-lg font-semibold text-gray-900">Diagnostic</h4>
-            {isSain ? (
-              <CheckCircle className="h-6 w-6 text-green-600" />
-            ) : (
-              <AlertTriangle className="h-6 w-6 text-red-600" />
-            )}
+            <div className="flex items-center space-x-2">
+              {/* Badge de sévérité */}
+              <span className={`px-3 py-1 rounded-full text-xs font-semibold ${colors.badge}`}>
+                Sévérité: {getSeverityLabel()}
+              </span>
+              {isSain ? (
+                <CheckCircle className={`h-7 w-7 ${colors.icon}`} />
+              ) : (
+                <AlertTriangle className={`h-7 w-7 ${colors.icon}`} />
+              )}
+            </div>
           </div>
-          <p className={`text-2xl font-bold ${isSain ? 'text-green-700' : 'text-red-700'}`}>
+          <p className={`text-3xl font-bold mb-4 ${colors.text}`}>
             {maladie}
           </p>
-          <div className="mt-3">
+          <div className="mt-4">
             <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-gray-600">Confiance</span>
-              <span className="font-semibold">{confidence}%</span>
+              <span className="text-gray-700 font-medium">Confiance du modèle</span>
+              <span className={`font-bold text-lg ${colors.text}`}>{confidence}%</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
               <div
-                className={`h-2 rounded-full ${isSain ? 'bg-green-600' : 'bg-red-600'}`}
+                className={`h-3 rounded-full transition-all duration-500 ${getConfidenceColor()}`}
                 style={{ width: `${confidence}%` }}
               />
             </div>
