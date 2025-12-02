@@ -39,12 +39,13 @@ const IrrigationControl = ({ currentState, onUpdate }) => {
         toast.success(`Arrosage ${action === 'ON' ? 'activé' : 'désactivé'}`);
         onUpdate?.();
 
-        // Timeout de sécurité si les données ne reviennent jamais (max 10s)
+        // Timeout de sécurité prolongé (15s) si les données ne reviennent jamais
         if (optimisticTimer.current) clearTimeout(optimisticTimer.current);
         optimisticTimer.current = setTimeout(() => {
+          console.log('⏰ Timeout optimiste - Annulation après 15s');
           setOptimisticState(null);
           optimisticTimer.current = null;
-        }, 10000);
+        }, 15000);
       } else {
         // En cas d'erreur, annuler l'état optimiste
         setOptimisticState(null);
