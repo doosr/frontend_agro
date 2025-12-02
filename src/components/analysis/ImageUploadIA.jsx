@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Upload, Camera, X, CheckCircle, AlertTriangle, Lightbulb, Image } from 'lucide-react';
+import { Upload, Camera, X, Image } from 'lucide-react';
 import Button from '../common/Button';
 import Card from '../common/Card';
 
-const ImageUploadIA = () => {
+const ImageUploadIA = ({ onAnalysisComplete }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -65,6 +65,9 @@ const ImageUploadIA = () => {
 
       if (data.success) {
         setResult(data);
+        if (onAnalysisComplete) {
+          onAnalysisComplete(data);
+        }
         alert('✅ Analyse terminée avec succès !');
       } else {
         throw new Error(data.error || 'Erreur lors de l\'analyse');
@@ -86,9 +89,6 @@ const ImageUploadIA = () => {
       fileInputRef.current.value = '';
     }
   };
-
-  const isSain = result?.prediction === 'Tomato_healthy';
-  const confidence = result?.confidence ? (result.confidence * 100).toFixed(1) : 0;
 
   return (
     <div className="space-y-6">
@@ -151,112 +151,6 @@ const ImageUploadIA = () => {
           )}
         </div>
       </Card>
-
-      {/* Résultats de l'analyse */}
-      {result && (
-        <Card title="Résultat de l'Analyse" icon={isSain ? CheckCircle : AlertTriangle}>
-          <div className="space-y-6">
-            {/* Diagnostic */}
-            <div className={`p-6 rounded-lg ${isSain ? 'bg-green-50 border-2 border-green-200' : 'bg-red-50 border-2 border-red-200'}`}>
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="text-lg font-semibold text-gray-900">Diagnostic</h4>
-                {isSain ? (
-                  <CheckCircle className="h-8 w-8 text-green-600" />
-                ) : (
-                  <AlertTriangle className="h-8 w-8 text-red-600" />
-                )}
-              </div>
-
-              <p className={`text-3xl font-bold mb-4 ${isSain ? 'text-green-700' : 'text-red-700'}`}>
-                {result.predictionFr || result.prediction}
-              </p>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600 font-medium">Confiance du modèle</span>
-                  <span className="font-bold text-gray-900">{confidence}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div
-                    className={`h-3 rounded-full transition-all duration-500 ${isSain ? 'bg-green-600' : 'bg-red-600'}`}
-                    style={{ width: `${confidence}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Informations supplémentaires */}
-              <div className="mt-4 pt-4 border-t border-gray-200 grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-gray-600">Maladie détectée:</span>
-                  <span className="ml-2 font-semibold">{result.diseaseDetected ? 'Oui' : 'Non'}</span>
-                </div>
-                <div>
-                  <span className="text-gray-600">Sévérité:</span>
-                  <span className="ml-2 font-semibold capitalize">{result.severity}</span>
-                </div>
-                <div>
-                  <span className="text-gray-600">Arrosage nécessaire:</span>
-                  <span className="ml-2 font-semibold">{result.shouldWater ? 'Oui' : 'Non'}</span>
-                </div>
-                <div>
-                  <span className="text-gray-600">Modèle utilisé:</span>
-                  <span className="ml-2 font-semibold text-xs">{result.modelUsed}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Recommandations */}
-            {result.recommendations && result.recommendations.length > 0 && (
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Lightbulb className="h-6 w-6 text-blue-600" />
-                  <h4 className="text-lg font-semibold text-blue-900">Recommandations</h4>
-                </div>
-                <ul className="space-y-3">
-                  {result.recommendations.map((rec, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <span className="text-blue-600 text-xl mt-0.5">•</span>
-                      <span className="text-blue-800 flex-1">{rec}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Métadonnées */}
-            <div className="bg-gray-50 rounded-lg p-4 text-xs text-gray-600">
-              <p><strong>Horodatage:</strong> {new Date(result.timestamp).toLocaleString('fr-FR')}</p>
-              <p className="mt-1">
-                <strong>État backend:</strong>
-                <span className={result.backend_sent ? 'text-green-600 ml-2' : 'text-orange-600 ml-2'}>
-                  {result.backend_sent ? '✓ Envoyé' : '✗ Non envoyé'}
-                </span>
-              </p>
-            </div>
-
-            {/* Bouton nouvelle analyse */}
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={handleClear}
-              className="w-full"
-            >
-              Analyser une nouvelle image
-            </Button>
-          </div>
-        </Card>
-      )}
-
-      {/* Instructions */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="font-semibold text-blue-900 mb-2">ℹ️ Information</h4>
-        <ul className="text-sm text-blue-800 space-y-1">
-          <li>• L'image est envoyée directement au serveur IA Python (port 5001)</li>
-          <li>• L'analyse se fait sans stockage dans le backend Node.js</li>
-          <li>• Les résultats sont affichés localement dans votre navigateur</li>
-          <li>• Le serveur IA peut optionnellement envoyer les résultats au backend</li>
-        </ul>
-      </div>
     </div>
   );
 };

@@ -44,37 +44,6 @@ const Analysis = () => {
         <ImageUploadIA onAnalysisComplete={handleAnalysisComplete} />
         {selectedImage && <DiagnosticResult result={selectedImage} />}
       </div>
-
-      <Card title="Analyses Récentes" icon={ImageIcon}>
-        {loading ? (
-          <Loader />
-        ) : images.length === 0 ? (
-          <p className="text-center text-gray-500 py-8">Aucune analyse disponible</p>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {images.map((img) => (
-              <div
-                key={img._id}
-                onClick={() => setSelectedImage(img)}
-                className="cursor-pointer group"
-              >
-                <div className="relative overflow-hidden rounded-lg aspect-square">
-                  <img
-                    src={`${process.env.REACT_APP_API_URL?.replace('/api', '')}/${img.path}`}
-                    alt="Analyse"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                  />
-                  {img.analysed && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-2 text-xs">
-                      {img.resultatAnalyse?.maladie}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
     </div>
   );
 };
