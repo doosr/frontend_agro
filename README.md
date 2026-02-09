@@ -1,6 +1,7 @@
 # 🌱 SmartPlant IA - Frontend
 
 Interface web React pour le système SmartPlant IA.
+![Capture d’écran](Capture%20d’écran%20(89).png)
 
 ## 🚀 Technologies
 
